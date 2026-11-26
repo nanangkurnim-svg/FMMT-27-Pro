@@ -29,18 +29,26 @@ def class_name(p: Process, base: int, vt: int) -> str | None:
 
 
 def module_image(p: Process, module) -> bytes:
-    """The module as mapped. A chunk read fails whole if any page in it is unreadable (build 6AE563A1 has
-    two such pages next to the RTTI names), so a failed chunk is read again page by page."""
+    """The module as mapped. Uses VirtualQueryEx to read only committed readable regions (skipping
+    unreadable or PAGE_GUARD pages cleanly, which also avoids slow page-by-page fallback on large
+    protected sections in Steam builds)."""
     base, size, step, page = module.base, module.size, 16 << 20, 0x1000
-    parts = []
-    for o in range(0, size, step):
-        n = min(step, size - o)
-        b = p.read(base + o, n)
-        if not b:
-            b = b"".join(p.read(base + q, min(page, o + n - q)) or b"\0" * min(page, o + n - q)
-                         for q in range(o, o + n, page))
-        parts.append(b)
-    return b"".join(parts)
+    buf = bytearray(size)
+    for r in p.regions(lo=base, hi=base + size):
+        lo = max(r.base, base)
+        hi = min(r.base + r.size, base + size)
+        for addr in range(lo, hi, step):
+            n = min(step, hi - addr)
+            b = p.read(addr, n)
+            if b:
+                buf[addr - base: addr - base + n] = b
+            else:
+                for q in range(addr, addr + n, page):
+                    pn = min(page, addr + n - q)
+                    pb = p.read(q, pn)
+                    if pb:
+                        buf[q - base: q - base + pn] = pb
+    return bytes(buf)
 
 
 def vtables_for(p: Process, module, mangled: str, image: bytes | None = None) -> dict[int, int]:

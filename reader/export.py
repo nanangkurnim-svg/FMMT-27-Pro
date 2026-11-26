@@ -42,11 +42,42 @@ def identity(r: dict) -> dict:
     }
 
 
+def _underlying(r: dict) -> tuple[int | None, int | None, list[int] | None]:
+    """Silent underlying indices (0-100) for Moneyball scoring & Join Chance without exposing raw CA/PA/hidden numbers.
+    Returns (_qual, _upside, _pers=[adaptability, ambition, loyalty])."""
+    pers = r.get("personality") or []
+    hid = r.get("hidden") or {}
+    if len(pers) < 8 or not hid:
+        return None, None, None
+    adapt, amb, loy, pres, prof, _sport, temp, _contr = pers[:8]
+    cons = hid.get("Consistency", 50) / 5
+    imp = hid.get("Important Matches", 50) / 5
+    inj = hid.get("Injury Proneness", 50) / 5
+    # Reliability / mentality quality (0-100): consistency, big matches, durability, professionalism, composure under pressure
+    qual = round(max(0.0, min(100.0, (cons * 0.25 + imp * 0.15 + (20 - inj) * 0.25 + prof * 0.20 + pres * 0.10 + temp * 0.05) * 5)))
+    # Development upside (0-100): headroom + professionalism + ambition for young players; neutral 50 for mature players
+    age = r.get("age") or 25
+    ca, pa = r.get("ca") or 0, r.get("pa") or 0
+    if age <= 24 and 1 <= ca <= 200 and 1 <= pa <= 200:
+        gap = max(0, pa - ca)
+        # 40+ headroom + strong professionalism/ambition -> near 100
+        upside = round(max(0.0, min(100.0, min(gap, 45) / 45 * 65 + (prof / 20) * 25 + (amb / 20) * 10)))
+    else:
+        upside = 50
+    return qual, upside, [adapt, amb, loy]
+
+
 def club_ids(r: dict) -> dict:
-    """Club ids, plus the parent club of a player who is out on loan."""
+    """Club ids, reputation, contract start, and silent underlying indices."""
+    qual, upside, pers3 = _underlying(r)
     return {"Club ID": r["club_uid"], "Loaned From": r["owner"] or "", "Loaned From ID": r["owner_uid"],
             "Team": r["team"] or "", "Loaned Team": r["owner_team"] or "", "Pos Ratings": r["pos"],
-            "Attrs": r.get("attrs")}  # x5 (1-100), in the reader's SHOWN_ATTRS order
+            "Attrs": r.get("attrs"),  # x5 (1-100), in the reader's SHOWN_ATTRS order
+            "Rep": r.get("rep_cur"), "World Rep": r.get("rep_world"),
+            "Club Rep": r.get("club_rep"), "Club Nat": r.get("club_nat") or "",
+            "Contract Start": r.get("contract_start") or "",
+            "Release Clause": r.get("release_clause"),  # minimum fee release clause, in the game's pounds
+            "_dbid": r.get("db_id"), "_qual": qual, "_upside": upside, "_pers": pers3}
 
 
 def to_row(r: dict) -> dict:

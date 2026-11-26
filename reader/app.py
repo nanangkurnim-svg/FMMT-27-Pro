@@ -56,7 +56,7 @@ def open_window(edge: str) -> subprocess.Popen:
 def window_open() -> bool:
     """Edge holds the profile's lockfile for as long as any window of this profile is open."""
     try:
-        os.close(os.open(os.path.join(PROFILE, "lockfile"), os.O_RDONLY))
+        os.close(os.open(os.path.join(PROFILE, "lockfile"), os.O_RDWR))
     except FileNotFoundError:
         return False
     except OSError:
@@ -115,9 +115,15 @@ def main():
     if not edge:
         control_window(srv) if srv else webbrowser.open(URL)   # no server: already running
         return
-    # With a window already open, Edge hands the new one over and this launcher exits at once,
-    # so stay until no window is left, and take over the port if the copy that held it has gone.
+    # With a window already open (or when Edge de-elevates / hands off to a child process),
+    # the launcher exits at once before the window creates its lockfile. Wait briefly for the
+    # lockfile to appear, then stay alive until no window of this profile is left.
+    t0 = time.time()
     open_window(edge).wait()
+    if time.time() - t0 < 5:
+        deadline = time.time() + 10
+        while not window_open() and time.time() < deadline:
+            time.sleep(0.25)
     while window_open():
         if not srv:
             srv = bind_server()

@@ -1,4 +1,28 @@
-# FMMT 27
+# FMMT 27 — Moneyball Pro (FM27 27.0.1 Edition)
+
+An expanded adaptation of [fmoreoo/FMMT-27](https://github.com/fmoreoo/FMMT-27) (GNU GPL v3) adapted for **Football Manager 27 Steam `27.0.1`** (`6AE8B5A4-17CB9000`) with a serious Moneyball recruitment engine, strict **Join Chance** estimation, **Release Clause** reading, **Role-Based & League-Adjusted Moneyball**, and **Direct "Open in FM"** player-profile navigation.
+
+### What's New in This Edition
+- **FM27 Steam `27.0.1` (`6AE8B5A4-17CB9000`) Support:** Verified live against `game_plugin.dll` with `VirtualQueryEx`-safe RTTI scanning (cleanly skips protected/unreadable sections) and full newgen detection.
+- **Direct "Open in FM" (`reader/fm_nav.c` → `fmmt_nav.dll`):** One click on **Open in FM** (Player Profile) or **`FM`** (Moneyball row) opens the player's profile directly inside the running FM27 window via Unity's official IL2CPP API (`FM.UI.PersonReference` → `SI.Bindable.PanelManager.Open`) marshaled safely onto Unity's main thread with SEH protection (zero game-file or save modifications; automatic fallback to clipboard + `SendInput`).
+- **Strict Anti-PHP Join Chance (`Likely` / `Possible` / `Unlikely`):** Reads **Player Reputation** (Current/Home/World), **Club Reputation**, **Club Nation**, and **Contract Start Date** directly from memory, combined with your club's wage ceiling and silent underlying mentality/relocation checks — available in **Moneyball**, **Tactical Fit**, **World Scout**, **Shortlist**, and **Player Profile**.
+- **Release Clauses:** Reads minimum-fee release clauses directly from player contracts (`CONTRACT+0x68`), with a **Clause** column, Release Clause filter, and **Release Clause Bargains** preset.
+- **Revamped Moneyball Tab:**
+  - **Moneyball Score (`MB`, 0–99)** combining Performance, Undervalued ratio, Ability/vs Age, Join Chance, and silent underlying quality/upside (Pure Moneyball UI — no raw CA/PA or hidden attributes shown).
+  - **7 Quick Presets:** *Realistic Bargains*, *Bosman / Expiring*, *Free Agents*, *U23 Wonderkids*, *Overperformers*, *High Ability Bargains*, and *Release Clause Bargains*.
+  - **Role-Based Moneyball (13 tactical roles)** & **League-Adjusted Performance** toggle (calibrated by each league's median club reputation).
+  - **KPI Summary Bar**, specific position chips (`GK`..`ST`), **Local vs Foreign / Nationality** quota filter, **Exclude Loanees**, **Include/Only Free Agents**, clickable column sorting, Quick Compare (`⇄`), and auto-saved filter state.
+- **App-Wide Upgrades:**
+  - **Sell/Keep → "Find Replacement":** One-click replacement finder jumping to Moneyball with Net Profit & Wage Saving columns.
+  - **Tactical Fit:** Priority Gaps & Club Budget Benchmark banner + Join Chance, Nationality, Exclude Loanees, and Quick Compare (`⇄`).
+  - **Snapshots & Trend Tracker:** Save club snapshots in the header and track performance/value deltas in Squad, Shortlist, and Moneyball.
+  - **Squad Age Curve & Foreign Quota Bar:** Developing/Peak/Experienced breakdown, Local vs Foreign count, and contracts ending within 12 months.
+  - **Shortlist Notes & CSV Export:** Inline per-player notes saved locally + one-click CSV export.
+  - **Edge Launcher Handoff Fix (`reader/app.py`):** Fixes premature server shutdown when Edge hands off to a child process on Windows 11.
+
+For full technical details (memory offsets, Join Chance rules, Moneyball Score weights, and IL2CPP navigation internals), see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+---
 
 FMMT stands for Football Manager Moneyball Tool. It is a Moneyball-style scouting tool for Football Manager 27. It reads player stats straight from the running game with one click, so there is no exporting or spreadsheet juggling. It then shows every stat as a percentile against comparable players, using the stat list from Fmplaya's FM24 Statistics Spreadsheet (see [Credits](#credits)).
 
@@ -35,7 +59,7 @@ In Compare and Graphs, type a name to find a player.
 ## Requirements
 
 - Windows 10 or 11
-- Football Manager 27: the current Microsoft Store version 0.9.2524.0 (engine build 6AF5C8C6-179AD000), or the earlier 0.9.2435.0 (6AE8CF77-17969000), 0.9.2409.0 (6AE563A1-175DA000) and 6ADFB11C-19E69000. Football Manager 26 (game version 26.3.2). The older game is still supported: the tool picks the right settings for the build it finds.
+- Football Manager 27: Microsoft Store versions 0.9.2524.0 (engine build 6AF5C8C6-179AD000), 0.9.2435.0 (6AE8CF77-17969000), 0.9.2409.0 (6AE563A1-175DA000), 6ADFB11C-19E69000, and Steam version 27.0.1 (6AE8B5A4-17CB9000). Football Manager 26 (game version 26.3.2). The older game is still supported: the tool picks the right settings for the build it finds.
 - Microsoft Edge (included with Windows) for the app window
 - To run from source: Python 3.12 or newer. The reader uses only the standard library.
 
@@ -106,7 +130,7 @@ It reads every player and checks that each field looks plausible: ages and heigh
 - Personality, playing style and weight are not read yet, so they show "–".
 - Reserve and B-team players (about 0.6%) show their parent club and its league.
 - The game shows Distance/90 at a tenth of the tool's figure (1.3 km against 13.1 km). The tool shows real distance: a full-match outfielder covers 9 to 13 km.
-- The tool was checked on FM27 version 0.9.2524.0 (engine build id 6AF5C8C6-179AD000), version 0.9.2435.0 (6AE8CF77-17969000), version 0.9.2409.0 (6AE563A1-175DA000), the earlier FM27 build 6ADFB11C-19E69000 and FM26 build 26.3.2 (6A229F1E-1D8D3000). A game patch may move some fields. Memory offsets are constants at the top of `reader/fm27.py`, and what differs between versions is in `PROFILES` there, so a patch means updating them there. An unknown build uses the newest profile and shows a warning. Run `reader/sanity.py` to find out.
+- The tool was checked on FM27 version 27.0.1 (Steam, engine build id 6AE8B5A4-17CB9000), Microsoft Store versions 0.9.2524.0 (6AF5C8C6-179AD000), 0.9.2435.0 (6AE8CF77-17969000), 0.9.2409.0 (6AE563A1-175DA000), the earlier FM27 build 6ADFB11C-19E69000 and FM26 build 26.3.2 (6A229F1E-1D8D3000). A game patch may move some fields. Memory offsets are constants at the top of `reader/fm27.py`, and what differs between versions is in `PROFILES` there, so a patch means updating them there. An unknown build uses the newest profile and shows a warning. Run `reader/sanity.py` to find out.
 - In FM27 many competitions keep only a reduced record (passes, tackles, fouls, shots, xG, xA). Other stats show "–" for those players. The same applies to matches from before the save began: an outfielder averaging under 8.5 km per 90 is missing detail for part of their minutes, and those stats show "–" too, instead of being spread thinly over all their minutes. This affects most players in many leagues outside the Premier League, Bundesliga and Serie A. Players with reduced data tend to show more shots and tackles and fewer passes per 90 than players with full data, so compare them with care. Keeper save stats come only from competitions that store saves, so they can cover far fewer minutes than the player's total.
 - If you manage a national team, no club is detected. Choose one with the "My club" picker.
 - Expected goals prevented comes from the game's own stored value, which runs negative for most keepers, as it does in the game. Expected save % is worked out from it and runs high.

@@ -42,6 +42,9 @@ PROFILES = {
     # Store update 0.9.2524.0: same layout; sanity.py passes on a mid-season save, and Gambale's season stats
     # and all 36 shown attributes matched the game screen on 2026-11-18
     "6AF5C8C6-179AD000": Profile("FM27 0.9.2524", -0x180, 0x20, 0x468, keeper_saves_summed=True, partial_records=True, clock_date=0x7F4, team_rosters=True, every_player=True),
+    # Steam 27.0.1+2494687 (compiled 2026-11-02): same layout as 0.9.2435 / 0.9.2524;
+    # RTTI subobject offsets and vtable getters verified statically against game_plugin.dll
+    "6AE8B5A4-17CB9000": Profile("FM27 27.0.1", -0x180, 0x20, 0x468, keeper_saves_summed=True, partial_records=True, clock_date=0x7F4, team_rosters=True, every_player=True),
 }
 LATEST = "6AF5C8C6-179AD000"
 
@@ -66,6 +69,7 @@ P_UPDATED = 0x11C                        # a per-player date; its max across pla
 P_POS = -0x138                          # 15 x u8 (1-20): GK SW DL DC DR DM ML MC MR AML AMC AMR ST WBL WBR
 P_LEFT, P_RIGHT = -0x111, -0x110         # u8, 1-100 (x5 of the 1-20 shown in game)
 P_HEIGHT, P_VALUE, P_CA, P_PA = -0x5A, -0x54, -0x24, -0x22
+P_REP_CUR, P_REP_HOME, P_REP_WORLD = -0x2A, -0x28, -0x26  # 3 x u16 (0-10000): current, home, world reputation
 # Attributes: 54 x u8 from -0x129 (right after the position ratings), stored x5: the game shows value / 5.
 # Order proven on FM27's player screens (Hull City save, 13/7/2026): 182 values matched, 108 of them predicted blind.
 P_ATTRS = -0x129
@@ -82,10 +86,16 @@ SHOWN_ATTRS = [a for a in ATTRS if a not in HIDDEN_ATTRS and a not in ("Left Foo
 P_PERSONALITY = 0x70                    # 8 x u8: adaptability ambition loyalty pressure professionalism sportsmanship temperament controversy
 
 CONTRACT_TEAM, CONTRACT_WAGE, CONTRACT_START, CONTRACT_END = 0x10, 0x20, 0x44, 0x48
+# Contract clauses: begin/end of an array of 8-byte entries {i32 amount, u16 condition (0xFFFF = none), u16 type}.
+# Type 0 is the minimum fee release clause. Checked on FM27 27.0.1 (Persija save, 2026-11-26): 66% of players at
+# Spanish clubs carry one (87% at clubs with reputation 7000+) against 1.7% elsewhere, and Real Madrid's and
+# Barcelona's stars sit at exactly EUR 1bn (859,031,872 in the game's pounds). Other types are not mapped.
+CONTRACT_CLAUSES, CLAUSE_SIZE, CLAUSE_RELEASE = 0x68, 8, 0
+CONTRACT_READ = 0x78
 CLUB_UID = 0x0C
-TEAM_CLUB, TEAM_COMP = 0x30, 0x50
+TEAM_CLUB, TEAM_COMP, TEAM_REP = 0x30, 0x50, 0xA8
 TEAM_SECOND, TEAM_AGE, TEAM_ROSTER = 0x28, 0x2C, 0x38   # not 0 = a second team; age limit (100 = none); begin/end of its player pointers
-CLUB_LONG, CLUB_SHORT = 0xC0, 0xC8
+CLUB_LONG, CLUB_SHORT, CLUB_NATION = 0xC0, 0xC8, 0xD8
 COMP_NAME = 0x40
 NATION_CODE, NATION_NAME = 0x28, 0x18
 
@@ -185,6 +195,7 @@ class Game:
         self.team_vt = next((v for v, off in vtables(TEAM_CLASS).items() if off == 0), None) if self.prof.team_rosters else None
         self._teams: list[int] = []
         self._team_of: dict = {}
+        self._club_rep: dict[int, int] = {}
         self._str: dict[int, str | None] = {}
         self._once_memo: dict = {}
 
@@ -232,8 +243,14 @@ class Game:
             return False
         if uid == uid2:
             return True
-        return (self.prof.every_player and not uid2 and bool(self.p.ptr(a + P_CONTRACT))
-                and bool(self.p.ptr(a + self.prof.p_stats - shift)))
+        if not (self.prof.every_player and bool(self.p.ptr(a + P_CONTRACT))):
+            return False
+        st = self.p.ptr(a + self.prof.p_stats - shift)
+        if not st:
+            return False
+        if not uid2:
+            return True
+        return self.p.u32(st + self.prof.stats_to_start + 0x40) == _id
 
     def shift(self, player: int) -> int:
         return STAFF_PLAYER_SHIFT if player in self._staff_players else 0
@@ -290,6 +307,12 @@ class Game:
     def club_info(self, club: int | None) -> tuple:
         return self._once(("club", club), lambda: (self.club_name(club), self.p.u32(club + CLUB_UID))) if club else (None, None)
 
+    def club_nation(self, club: int | None) -> str | None:
+        def read():
+            nat = self.p.ptr(club + CLUB_NATION)
+            return self.nation_info(nat)[0] if nat else None
+        return self._once(("club_nat", club), read) if club else None
+
     def nation_info(self, nation: int | None) -> tuple:
         if not nation:
             return None, None
@@ -319,7 +342,8 @@ class Game:
             except (OSError, struct.error, TypeError):
                 continue
             if name and not any(o["name"] == name for o in out):
-                out.append({"name": name, "uid": self.p.u32(club + CLUB_UID)})
+                rep = self._club_rep.get(club) or (self.p.u16(team + TEAM_REP) if team else None)
+                out.append({"name": name, "uid": self.p.u32(club + CLUB_UID), "rep": rep, "nat": self.club_nation(club)})
         return out
 
     # ---- raw structures -----------------------------------------------------
@@ -373,6 +397,21 @@ class Game:
                 rec[k] += struct.unpack_from("<" + f, rb, off)[0]
         return e, rec
 
+    def release_clause(self, cb: bytes | None) -> int | None:
+        """Minimum fee release clause from a contract's clause list; None when the contract has none."""
+        if not cb or len(cb) < CONTRACT_CLAUSES + 16:
+            return None
+        first, end = struct.unpack_from("<QQ", cb, CONTRACT_CLAUSES)
+        n = end - first
+        if not first or n <= 0 or n > 0x400 or n % CLAUSE_SIZE:
+            return None
+        raw = self.p.read(first, n)
+        for i in range(0, len(raw) if raw else 0, CLAUSE_SIZE):
+            amount, cond, kind = struct.unpack_from("<iHH", raw, i)
+            if kind == CLAUSE_RELEASE and cond == 0xFFFF and amount > 0:
+                return amount
+        return None
+
     def season_entry(self, player: int, slot: int = SCOPES["competitive"]) -> int | None:
         so = self.stats_object(player)
         return (self.p.ptr(so + slot) or None) if so else None
@@ -392,23 +431,38 @@ class Game:
         return home
 
     def team_rosters(self) -> dict:
-        """(player, club) -> the team he is listed in. A loanee is listed by both clubs."""
+        """(player, club) -> the team he is listed in. A loanee is listed by both clubs.
+        Also records each club's senior-team reputation from TEAM+TEAM_REP."""
         out, players, unlisted = {}, set(self._players or ()), set()
+        club_rep: dict[int, int] = {}
+        senior_rep: dict[int, int] = {}
+        read_sz = max(TEAM_ROSTER + 0x10, TEAM_REP + 2)
         for t in self._teams:
-            d = self.p.read(t, TEAM_ROSTER + 0x10)
-            first, end = struct.unpack_from("<QQ", d, TEAM_ROSTER) if d else (0, 0)
+            d = self.p.read(t, read_sz)
+            if not d:
+                continue
+            age = d[TEAM_AGE]
+            is_second = bool(struct.unpack_from("<I", d, TEAM_SECOND)[0])
+            club = struct.unpack_from("<Q", d, TEAM_CLUB)[0]
+            rep = struct.unpack_from("<H", d, TEAM_REP)[0]
+            if club and 1 <= rep <= 10000:
+                if age >= 100 and not is_second:
+                    senior_rep[club] = rep
+                elif rep > club_rep.get(club, 0):
+                    club_rep[club] = rep
+            first, end = struct.unpack_from("<QQ", d, TEAM_ROSTER)
             ids = self.p.read(first, end - first) if first and 0 < end - first <= 0x1000 else None
             if not ids:
                 continue
-            age = d[TEAM_AGE]
-            name = f"U{age}" if age < 100 else "Reserves" if struct.unpack_from("<I", d, TEAM_SECOND)[0] else "Senior Team"
-            club = struct.unpack_from("<Q", d, TEAM_CLUB)[0]
+            name = f"U{age}" if age < 100 else "Reserves" if is_second else "Senior Team"
             for p in struct.unpack(f"<{len(ids) // 8}Q", ids):
                 a = next((p + s for s in (PLAYER_SUBOBJECT, STAFF_PLAYER_SUBOBJECT) if p + s in players), None)
                 if a:
                     out[a, club] = name
                 else:
                     unlisted.add(p)
+        club_rep.update(senior_rep)
+        self._club_rep = club_rep
         self.unlisted = sum(self.p.u64(p) != self.virtual_vt for p in unlisted)
         return out
 
@@ -440,6 +494,7 @@ class Game:
         if not b:
             return None
         u8 = lambda o: b[start + o]
+        u16 = lambda o: struct.unpack_from("<H", b, start + o)[0]
         u32 = lambda o: struct.unpack_from("<I", b, start + o)[0]
         ptr = lambda o: struct.unpack_from("<Q", b, start + o)[0]
         before = lambda o: o - back  # the negative offsets, which a staff record pushes back
@@ -450,7 +505,7 @@ class Game:
 
         nation = ptr(P_NATION)
         contract = ptr(P_CONTRACT)
-        cb = self.p.read(contract, 0x50) if contract else None
+        cb = self.p.read(contract, CONTRACT_READ) if contract else None
         home = struct.unpack_from("<Q", cb, CONTRACT_TEAM)[0] if cb else None   # club holding the contract
         team = self.current_team(home, ptr(P_LOANS), today)
         club, owner = self.team_club(team), self.team_club(home)
@@ -464,13 +519,19 @@ class Game:
         pos = list(b[start + before(P_POS): start + before(P_POS) + 15])
         lf, rf = u8(before(P_LEFT)), u8(before(P_RIGHT))
         foot = "Either" if abs(lf - rf) <= 10 and min(lf, rf) >= 70 else ("Left" if lf > rf else "Right")
+        raw_attrs = b[start + before(P_ATTRS): start + before(P_ATTRS) + len(ATTRS)]
+        hidden = {n: v for n, v in zip(ATTRS, raw_attrs) if n in HIDDEN_ATTRS}
+        cdate = lambda o: (lambda d: d.isoformat() if d and d.year >= 1950 else None)(unpack_date(struct.unpack_from("<I", cb, o)[0])) if cb else None
         return {
+            "db_id": u32(P_ID),
             "uid": u32(P_UID), "name": name, "pos": pos, "position": position_string(pos), "age": age,
             "dob": dob.isoformat() if dob else None,
             "nat": nat,
             "nation": nation_name,
             "club": club_name,
             "club_uid": club_uid,
+            "club_rep": self._club_rep.get(club) if club else None,
+            "club_nat": self.club_nation(club) if club else None,
             "owner": owner_name if owner != club else None,
             "owner_uid": owner_uid if owner and owner != club else None,
             "division": self.division(team),
@@ -478,10 +539,14 @@ class Game:
             "owner_team": self._team_of.get((a, owner)) if owner != club else None,
             "wage": struct.unpack_from("<I", cb, CONTRACT_WAGE)[0] if cb else None,
             # the game stores 1900-01-02 when a contract has no end date
-            "contract_end": (lambda d: d.isoformat() if d and d.year >= 1950 else None)(unpack_date(struct.unpack_from("<I", cb, CONTRACT_END)[0])) if cb else None,
+            "contract_start": cdate(CONTRACT_START),
+            "contract_end": cdate(CONTRACT_END),
+            "release_clause": self.release_clause(cb),
             "value": u32(before(P_VALUE)), "height": u8(before(P_HEIGHT)), "foot": foot,
-            "ca": u8(before(P_CA)), "pa": u8(before(P_PA)),
-            "attrs": [v for n, v in zip(ATTRS, b[start + before(P_ATTRS): start + before(P_ATTRS) + len(ATTRS)]) if n in SHOWN_ATTRS],
+            "ca": u16(before(P_CA)), "pa": u16(before(P_PA)),
+            "rep_cur": u16(before(P_REP_CUR)), "rep_home": u16(before(P_REP_HOME)), "rep_world": u16(before(P_REP_WORLD)),
+            "attrs": [v for n, v in zip(ATTRS, raw_attrs) if n in SHOWN_ATTRS],
+            "hidden": hidden,
             "personality": list(b[start + P_PERSONALITY: start + P_PERSONALITY + 8]),
             "season": e, "record": rec,
             "keeper": self.keeper_saves(a, scope) if pos[0] >= ACCOMPLISHED and max(pos) == pos[0] else None,

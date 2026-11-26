@@ -76,8 +76,17 @@ td.st{width:1%;padding-left:2px;padding-right:2px}
 .miss{display:flex;gap:10px;align-items:center;font-size:.9em;margin:4px 0}
 .attrs{display:grid;grid-template-columns:minmax(0,1fr);gap:1px;font-size:.86em}.attrs div{display:flex;justify-content:space-between;gap:8px;padding:2px 6px;border-radius:3px}.attrs div:nth-child(odd){background:color-mix(in srgb,var(--line) 35%,transparent)}.attrs b{min-width:2ch;text-align:right}
 .pview{margin-bottom:10px}.attrs span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.attrs b.hi{color:var(--acc)}.attrs b.lo{color:var(--warm)}
-.recf{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px}.recf label{display:flex;gap:6px;align-items:center}.recf input[type=number]{width:70px}
+.recf{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px}.recf label{display:flex;gap:6px;align-items:center}.recf input[type=number]{width:70px}.recf input[type=search]{width:170px}
 .vd{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;font-weight:700;white-space:nowrap;border:1px solid var(--line)}.vd.good{background:var(--accbg);color:var(--acc);border-color:var(--acc)}.vd.bad{color:var(--warm);border-color:var(--warm)}
+.jc{display:inline-block;padding:1px 7px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap;border:1px solid var(--line);cursor:help}.jc.hi{background:var(--accbg);color:var(--acc);border-color:var(--acc)}.jc.md{background:color-mix(in srgb,var(--warm) 14%,transparent);color:var(--warm);border-color:var(--warm)}.jc.lo{color:var(--mute);opacity:.72}
+.mbs{display:inline-block;min-width:28px;text-align:center;padding:1px 6px;border-radius:6px;font-weight:700;font-size:12.5px}.mbs.hi{background:var(--acc);color:var(--onacc)}.mbs.md{background:var(--accbg);color:var(--acc);border:1px solid var(--acc)}.mbs.lo{background:var(--bg);color:var(--mute);border:1px solid var(--line)}
+.mbkpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:0 0 10px}.mbkpi>div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 11px;display:flex;flex-direction:column;gap:2px}.mbkpi span{font-size:11.5px;color:var(--mute);text-transform:uppercase;letter-spacing:.03em}.mbkpi b{font-size:1.08em;font-weight:700}.mbkpi small{font-size:11.5px;color:var(--mute)}
+.mbpre{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+.mbbox{background:var(--panel);border:1px solid var(--line);border-radius:8px;margin:0 0 10px}.mbbox>summary{padding:7px 12px;cursor:pointer;font-weight:600;font-size:13px;color:var(--mute);display:flex;align-items:center;gap:10px;list-style:none}.mbbox>summary::-webkit-details-marker{display:none}.mbbox>summary b{color:var(--ink)}.mbbox .mbbody{padding:0 12px 10px;display:grid;gap:8px}
+.mbpos{display:flex;flex-wrap:wrap;gap:4px;align-items:center}.mbpos .chip{padding:2px 9px;font-size:12px}
+.qcmp{background:none;border:1px solid var(--line);border-radius:5px;cursor:pointer;font-size:12px;line-height:1;padding:3px 6px;color:var(--mute)}.qcmp:hover{border-color:var(--acc);color:var(--acc);background:var(--accbg)}
+.tfgap{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:0 0 10px;font-size:13px}.tfgap b{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.slnote{width:170px;background:var(--bg);border:1px solid transparent;border-radius:5px;padding:2px 6px;font-size:12.5px;color:var(--ink)}.slnote:hover,.slnote:focus{border-color:var(--line);outline:none}.slnote:focus{border-color:var(--acc)}
 .tfp{display:grid;gap:8px;margin:0 0 12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(#1d5a4522,#1d5a4511)}.tfl{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .tfs{display:grid;gap:3px;min-width:150px;max-width:190px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--panel);cursor:pointer}.tfs[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}.tfs b{font-size:12px;color:var(--mute)}.tfs select{width:100%}
 .ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.ctl select{width:auto;min-width:190px}
@@ -173,12 +182,22 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
 @media(max-width:1450px){.pmain{grid-template-columns:230px minmax(0,1fr) 420px}}
 @media(max-height:760px){.pmain{min-height:360px}#pchart svg{max-height:max(280px,calc(96vh - 310px))}}
 @media(max-width:1100px){#dbody{display:block}.pmain{grid-template-columns:minmax(0,1fr)}#dbody>*{margin-bottom:10px}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:90;max-width:min(620px,92vw);background:var(--panel);color:var(--ink);border:1px solid var(--acc);border-radius:8px;padding:9px 16px;font-size:13px;box-shadow:0 10px 28px rgba(0,0,0,.45);pointer-events:none;opacity:0;transition:opacity .18s}
+.toast.on{opacity:1}.toast.warn{border-color:var(--warm)}
+.dlt{font-size:.8em;font-weight:700;margin-left:4px;white-space:nowrap}.dlt.up{color:var(--acc)}.dlt.dn{color:var(--warm)}.dlt.eq{color:var(--mute);font-weight:400}
+.qsum{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 12px;margin:0 0 10px;font-size:13px}
+.qsum b.h{font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--mute);font-weight:600;margin-right:4px}
+.qsum .seg{display:inline-flex;gap:4px;align-items:center}.qsum .seg span{padding:1px 8px;border-radius:99px;border:1px solid var(--line)}
+.qsum .seg span.hl{border-color:var(--acc);color:var(--acc);background:var(--accbg)}.qsum .seg span.wr{border-color:var(--warm);color:var(--warm)}
+.mbrepl{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;background:var(--accbg);border:1px solid var(--acc);border-radius:8px;padding:8px 12px;margin:0 0 10px;font-size:13px}
+.mbadj{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
 </style>
 </head>
 <body>
 <header>
   <h1>FMMT 27</h1><span class="sub" id="meta">Football Manager Moneyball Tool</span><span class="sp"></span>
   <label class="hdr-ctl" for="scope2" id="scope2l" hidden>Stats <select id="scope2" style="width:auto"></select></label>
+  <button class="btn ghost" id="snap" hidden title="Save this load's performance and values for your club, to show changes next time">Save snapshot</button>
   <button class="btn" id="reload" hidden>Reload from game</button>
   <button class="btn ghost xbtn" id="cog" aria-label="Settings" title="Settings">⚙&#xFE0E;</button>
 </header>
@@ -204,6 +223,7 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
       <label class="mut" for="myclub">My club</label><select id="myclub" style="width:auto;max-width:240px" aria-label="My club"></select>
       <label class="mut" for="qfoot">Foot</label><select id="qfoot" class="footsel" style="width:auto" aria-label="Preferred foot"></select>
       <label class="mut" for="qtv">Columns</label><select id="qtv" class="tvsel" style="width:auto"></select></div>
+    <div class="qsum" id="qsum" hidden></div>
     <div class="gtabs" id="qteams" hidden></div>
     <div class="gtabs" id="qpos"></div>
     <div class="wrap tall"><table class="ptab"><thead id="qth"></thead><tbody id="qtb"></tbody></table></div>
@@ -213,6 +233,7 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
     <div class="bar"><h2>Shortlist</h2><span class="cnt" id="lcnt"></span><span style="flex:1"></span>
       <label class="mut" for="lfoot">Foot</label><select id="lfoot" class="footsel" style="width:auto" aria-label="Preferred foot"></select>
       <label class="mut" for="ltv">Columns</label><select id="ltv" class="tvsel" style="width:auto"></select>
+      <button class="btn ghost" id="lexp" title="Export current shortlist view to CSV">Export CSV</button>
       <button class="btn ghost" id="lclear">Clear shortlist</button></div>
     <div class="gtabs" id="lfolders"></div>
     <div class="wrap tall"><table class="ptab"><thead id="lth"></thead><tbody id="ltb"></tbody></table></div>
@@ -236,6 +257,7 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
   <div id="tf" hidden>
     <div class="bar"><h2>Tactical fit</h2><span class="cnt" id="tfcnt"></span><span style="flex:1"></span>
       <label class="mut" for="tfform">Formation</label><select id="tfform" style="width:auto"></select><button class="btn ghost" id="tfauto" title="Fill every slot with your most-played player for it">Reset to most played</button></div>
+    <div class="tfgap" id="tfgap" hidden></div>
     <div class="tfp" id="tfp"></div>
     <div class="recf" id="tff"></div>
     <div class="wrap tall"><table class="ptab"><thead id="tfth"></thead><tbody id="tftb"></tbody></table></div>
@@ -314,8 +336,21 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
   </div>
   <div id="mb" hidden>
     <div class="bar"><h2>Moneyball</h2><span class="cnt" id="mbcnt"></span><span style="flex:1"></span>
-      <label class="mut" for="mbg">Position</label><select id="mbg" style="width:auto"><option value="">All</option><option value="DEF">Defenders</option><option value="MID">Midfielders</option><option value="AM">Attacking midfielders</option><option value="ST">Strikers</option><option value="GK">Goalkeepers</option></select></div>
-    <div class="recf" id="mbf"></div>
+      <input type="search" id="mbq" placeholder="Search name, club, nation…" style="width:200px" aria-label="Search Moneyball players">
+      <label class="mut" for="mbg">Group</label><select id="mbg" style="width:auto"><option value="">All</option><option value="DEF">Defenders</option><option value="MID">Midfielders</option><option value="AM">Attacking midfielders</option><option value="ST">Strikers</option><option value="GK">Goalkeepers</option></select>
+      <label class="mut" for="mbrole">Role</label><select id="mbrole" style="width:auto" title="Score Performance with stat weights for one tactical role, and list only players who can play it"></select>
+      <label class="mut mbadj" title="Scales Performance by league strength: the median reputation of the league's clubs, against the median league in the data. Stats piled up in weak leagues then count for less than the same output in strong ones."><input type="checkbox" id="mbadj"> League-adjusted</label>
+      <button class="btn ghost" id="mbreset" title="Reset Moneyball filters">Reset</button></div>
+    <div class="mbrepl" id="mbrepl" hidden></div>
+    <div class="mbkpi" id="mbkpi"></div>
+    <div class="mbpre" id="mbpre"></div>
+    <details class="mbbox" id="mbbox" open>
+      <summary><b>Filters</b><span class="cnt" id="mbfsum"></span><span style="flex:1"></span><span>Toggle ▾</span></summary>
+      <div class="mbbody">
+        <div class="mbpos" id="mbpos"></div>
+        <div class="recf" id="mbf" style="margin:0"></div>
+      </div>
+    </details>
     <div class="wrap tall"><table class="ptab"><thead id="mbth"></thead><tbody id="mbtb"></tbody></table></div>
     <p class="note" id="mbnote"></p>
   </div>
@@ -331,6 +366,8 @@ dialog>:last-child:not(.sfoot){margin-bottom:20px}
       <h3>Aged between</h3><div class="sage"><input type="number" id="samin" min="14" max="60" aria-label="Minimum age"> and <input type="number" id="samax" min="14" max="60" aria-label="Maximum age"></div>
       <h3>Minutes between</h3><div class="sage"><input type="number" id="smmin" min="0" step="90" placeholder="any" aria-label="Minimum minutes"> and <input type="number" id="smmax" min="0" step="90" placeholder="any" aria-label="Maximum minutes"></div>
       <h3>Preferred foot</h3><select id="sfoot" class="footsel" style="width:auto" aria-label="Preferred foot"></select>
+      <h3>Join chance (for your club)</h3><select id="sjc" style="width:100%" aria-label="Join chance"><option value="">Any</option><option value="hi">Likely only</option><option value="md">Likely or Possible</option></select>
+      <h3>Nationality / quota</h3><select id="snat" style="width:100%" aria-label="Nationality"></select>
       <h3>Percentile pool</h3><div class="sage">At least <input type="number" id="spool" min="0" step="90" aria-label="Minimum minutes to be in the percentile pool"> mins</div>
       <p class="mut" style="font-size:.82em;margin:4px 0 0">Players are scored against everyone with at least this many minutes. It applies to every tab.</p>
       <h3>Percentiles against</h3><select id="sref" style="width:100%" aria-label="Percentiles against"></select>
@@ -380,8 +417,9 @@ document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest
   if(!a||!/^https?:/.test(location.protocol))return;e.preventDefault();const url=a.getAttribute("href");
   fetch("/api/open",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({url})}).then(r=>{if(!r.ok)window.open(url,"_blank","noopener");}).catch(()=>window.open(url,"_blank","noopener"));});
 </script>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <dialog id="dlg">
-  <div class="gdh"><div><h2 id="dname"></h2><div class="mut" id="dsub"></div></div><div style="flex:1"></div><div class="prefw"><label class="mut" style="display:flex;align-items:center;gap:8px">Percentiles against <select id="pref" style="width:auto;max-width:260px" title="Applies to this profile's stats and chart"></select></label><div class="mut" id="prefw" style="font-size:.8em;color:var(--warm);max-width:420px;margin-top:4px" hidden></div></div><div class="hbtns"><button class="btn ghost" id="toSl">☆ Shortlist</button><button class="btn ghost" id="toCmp">Compare</button><button class="btn ghost xbtn" id="close" aria-label="Close player profile" title="Close">✕</button></div></div>
+  <div class="gdh"><div><h2 id="dname"></h2><div class="mut" id="dsub"></div></div><div style="flex:1"></div><div class="prefw"><label class="mut" style="display:flex;align-items:center;gap:8px">Percentiles against <select id="pref" style="width:auto;max-width:260px" title="Applies to this profile's stats and chart"></select></label><div class="mut" id="prefw" style="font-size:.8em;color:var(--warm);max-width:420px;margin-top:4px" hidden></div></div><div class="hbtns"><button class="btn ghost" id="toFm" title="Switch to FM27 and open this player's profile via Global Search">Open in FM</button><button class="btn ghost" id="toSl">☆ Shortlist</button><button class="btn ghost" id="toCmp">Compare</button><button class="btn ghost xbtn" id="close" aria-label="Close player profile" title="Close">✕</button></div></div>
   <div id="dbody"></div>
 </dialog>
 
@@ -415,7 +453,7 @@ function num(x){
   if(/\dM\b/.test(s))v*=1e6;else if(/\dK\b/.test(s))v*=1e3;
   return v;
 }
-const TEXT=new Set(["Transfer Value","Name","Position","Nat","Personality","Club","Division","Style","Preferred Foot","Expires","Loaned From"]);
+const TEXT=new Set(["Transfer Value","Name","Position","Nat","Personality","Club","Division","Style","Preferred Foot","Expires","Loaned From","Club Nat","Contract Start"]);
 
 function derive(r){
   const m=r.Mins,s={};
@@ -484,7 +522,7 @@ function compute(M=SR){
   P.forEach(p=>{p.gk=p.groups.includes("GK");p.ok=p.r.Mins>=minM;});
   const R=refPools(cRef,minM,within);REFFB=R.fb;REFN=R.n;
   // players below the pool's minutes are still placed within it (a small sample, ranked after the pool)
-  P.forEach(p=>{p.small=!p.ok&&p.r.Mins>0;p.pct=p.ok||p.small?pctFrom(p,R.pools[pk(p,within)]||{}):{};});BM={};PERF={};ABP={};VM=null;fillCmp("");fillCmp("k");
+  P.forEach(p=>{p.small=!p.ok&&p.r.Mins>0;p.pct=p.ok||p.small?pctFrom(p,R.pools[pk(p,within)]||{}):{};});BM={};PERF={};ABP={};VM=null;RP={};fillCmp("");fillCmp("k");
 }
 
 const pk=(p,w)=>p.gk?"GK":(w?p.groups[0]:"all");
@@ -526,7 +564,7 @@ const vsAge=p=>{const b=bestAbil(p),a=p.r.Age;return isNaN(b)||!(a>0)?NaN:Math.r
 // attribute numbers are shown for your own players only; scores use everyone's
 const showAttrs=p=>hasAttrs(p)&&inClub(p);
 const f1=v=>isNaN(v)?"–":v.toFixed(1);
-const SV={name:p=>p.r.Name,pos:p=>p.r.Position,age:p=>p.r.Age,club:p=>p.r.Club,status:p=>status(p),star:p=>inSL(p)?0:1,mins:p=>p.r.Mins||NaN,rat:p=>p.r["Av Rat"],val:p=>p.vlo,wage:p=>p.r.Wage,exp:p=>p.exp,abil:p=>bestAbil(p),vsage:p=>vsAge(p)};
+const SV={name:p=>p.r.Name,pos:p=>p.r.Position,age:p=>p.r.Age,club:p=>p.r.Club,status:p=>status(p),star:p=>inSL(p)?0:1,mins:p=>p.r.Mins||NaN,rat:p=>p.r["Av Rat"],val:p=>p.vlo,wage:p=>p.r.Wage,exp:p=>p.exp,abil:p=>bestAbil(p),vsage:p=>vsAge(p),jc:p=>joinChance(p).score,note:p=>SL[pid(p)]?.note||"",trend:p=>trendOf(p)?.dpf??NaN};
 const sv=(p,k)=>k in SV?SV[k](p):p.s[k.slice(2)];
 function cell(p,k){const r=p.r;switch(k){
   case"name":return `<td><b>${esc(r.Name)}</b></td>`;
@@ -542,6 +580,9 @@ function cell(p,k){const r=p.r;switch(k){
   case"exp":return `<td>${esc(r.Expires||"–")}</td>`;
   case"abil":return `<td class="n">${f1(bestAbil(p))}</td>`;
   case"vsage":{const v=vsAge(p);return `<td class="n${v>=100?" val":""}">${isNaN(v)?"–":v+"%"}</td>`;}
+  case"note":{const k=pid(p);return `<td><input class="slnote" data-note="${esc(k)}" value="${esc(SL[k]?.note||"")}" placeholder="Add note…" aria-label="Note for ${esc(r.Name)}"></td>`;}
+  case"jc":return `<td>${jcHtml(joinChance(p))}</td>`;
+  case"trend":return trendCell(p);
   default:{const st=k.slice(2);return `<td class="n">${FMT(p.s[st],st)}</td>`;}}}
 
 // One player table (Scout, Squad, Shortlist). st holds that table's sort column and direction.
@@ -551,6 +592,8 @@ function drawTable(o){
   const cols=[["name","Name"],["star","☆","st"],["pos","Position"],["age","Age","n"],o.club?["status","Status"]:["club","Club"],["mins","Mins","n"],["rat","Av Rat","n"],["val","Market value","n"],["wage","Wage £/wk","n"]];
   if(tv==="Overview")cols.push(["exp","Expires"],["abil","Ability","n"],["vsage","vs Age","n"]);
   else cols.push(...STAT_LIST.filter(x=>x[0]===tv).map(x=>["s:"+x[1],x[2],"n"]));
+  if(o.notes)cols.push(["jc","Join"],["note","Notes"]);
+  if(o.trend&&snapFor())cols.push(["trend","Since snapshot","n"]);
   if(!cols.some(c=>c[0]===st.k)){st.k=tv==="Overview"?"rat":cols[9][0];st.d=-1;}
   // ties and missing values: most minutes first, then name
   const tie=(a,b)=>(b.r.Mins||0)-(a.r.Mins||0)||a.r.Name.localeCompare(b.r.Name);
@@ -614,9 +657,10 @@ function pitchSvg(r){const a=r["Pos Ratings"]||[];
    +PITCHPOS.map(([n,x,y],i)=>{const v=a[i]||0,on=v>=20,ok=v>=15;return `<g><title>${n}: ${on?"Natural":ok?"Accomplished":v>=10?"Competent":"Unconvincing or weaker"}</title><circle cx="${x}" cy="${y}" r="${on?9:ok?8:6.5}" fill="${on?"#5ee08f":ok?"#c7dd5d":"#00000055"}" stroke="#00000066"/><text x="${x}" y="${y+.5}" text-anchor="middle" dominant-baseline="middle" font-size="${on||ok?6.5:5.5}" font-weight="700" fill="${on||ok?"#0c1410":"#ffffff99"}">${n}</text></g>`;}).join("")+"</svg>";}
 function detail(i){
   const p=P[i],r=p.r,dim=v=>v||"–",num2=v=>isNaN(v)||v==null?"–":(+v).toFixed(2);
-  $("dname").textContent=r.Name;$("dsub").textContent=r.Position+" · "+r.Club+(r["Loaned From"]?` (on loan from ${r["Loaned From"]})`:"");$("toCmp").dataset.i=i;$("toSl").dataset.i=i;slBtn();
+  $("dname").textContent=r.Name;$("dsub").textContent=r.Position+" · "+r.Club+(r["Loaned From"]?` (on loan from ${r["Loaned From"]})`:"");$("toCmp").dataset.i=i;$("toSl").dataset.i=i;$("toFm").dataset.i=i;slBtn();
   const team=r["Loaned Team"]||r.Team;
-  const band=[["Age",f0(r.Age)],["Nationality",dim(r.Nat)],["Foot",dim(r["Preferred Foot"])],["Height",r.Height?f0(r.Height)+" cm":"–"],["League",dim(r.Division)],...(team?[["Team",team]]:[]),["Market value",dim(r["Transfer Value"])],["Wage",isNaN(r.Wage)?"–":"£"+r.Wage.toLocaleString()+" p/w"],["Contract",dim(r.Expires)]];
+  const ext=!inClub(p)&&MY!=null?joinChance(p):null;
+  const band=[["Age",f0(r.Age)],["Nationality",dim(r.Nat)],["Foot",dim(r["Preferred Foot"])],["Height",r.Height?f0(r.Height)+" cm":"–"],["League",dim(r.Division)],...(team?[["Team",team]]:[]),["Market value",dim(r["Transfer Value"])],["Wage",isNaN(r.Wage)?"–":"£"+r.Wage.toLocaleString()+" p/w"],["Contract",dim(r.Expires)],...(isFinite(rcOf(p))?[["Release clause",money(rcOf(p))]]:[]),...(ext?[["Join chance",ext]]:[])];
   // this profile's reference group: the stat table and chart both use it
   const own=lkey(r.Division),ref=PREF==null?cRef:PREF==="own"?own:PREF,same=ref===cRef||(ref==="my"&&cRef==="my");
   const R=same?{fb:REFFB,n:REFN}:refPools(ref,cMin,cWithin);
@@ -638,7 +682,7 @@ function detail(i){
   const stats=gk?`<div class="pcols two">${col("Goalkeeping")}${col("Physical")}</div>`:`<div class="pcols">${col("Shooting","Physical")}${col("Creating")}${col("Defending")}</div>`;
   const note=p.ok?"":`<p class="mut" style="margin:6px 0 0">${r.Mins?`Small sample: ${f0(r.Mins)} minutes, under the pool's ${cMin}, so these figures can swing a lot.`:"No minutes in the chosen competitions yet."}</p>`;
   const strip=[["Apps",r.Apps?f0(r.Apps):"–"],["Mins",r.Mins?f0(r.Mins):"–"],["Goals",r.Mins?f0(r.Gls):"–"],["Assists",r.Mins?f0(r.Ast):"–"],["xG",num2(r.xG)],["xG/90",num2(p.s["xG/90"])],["npxG",num2(r["NP-xG"])],["xA",num2(r.xA)],["Av Rat",num2(r["Av Rat"])],["PoM",r.Mins?f0(r.PoM):"–"]];
-  $("dbody").innerHTML=`<div class="pband">${band.map(([a,b])=>`<div><span>${a}</span><b>${esc(b)}</b></div>`).join("")}</div>
+  $("dbody").innerHTML=`<div class="pband">${band.map(([a,b])=>`<div><span>${a}</span><b>${a==="Join chance"?jcHtml(b):esc(b)}</b></div>`).join("")}</div>
    <div class="pmain"><div class="ppanel">${side}</div>
     <div class="ppanel">${attrs?`<div class="chips pview" id="pview"><button class="chip" data-v="stats">Stats</button><button class="chip" data-v="attrs">Attributes</button></div>`:""}<div id="pvs">${stats}<p class="note" style="margin-top:8px">Tint and small number: percentile against players in ${esc(refName(ref))} with ${cMin}+ minutes${R.fb[pk(p,cWithin)]?.size?" († against all leagues, where there are too few values)":""}. “–” means no data.${same?"":` Tables and lists elsewhere use ${esc(refName(cRef))} (set in Player search).`}</p>${note}</div>${attrs}</div>
     <div class="ppanel pchartw"><div class="pctl"><div class="chips" id="pct">${[["radar","Radar"],["pizza","Pizza"],["bar","Bar"]].map(([c,l])=>`<button class="chip" data-c="${c}">${l}</button>`).join("")}</div></div><div id="pchart"></div><div class="legend" id="pcap" style="display:block;margin:0"></div></div></div>
@@ -762,7 +806,8 @@ function build(){
 
 // Rows from the game are keyed by the FM24 column names.
 function start(raw,meta){
-  P=raw.map((r,i)=>({r,i,s:derive(r),groups:groups(r.Position),pset:psetOf(r.Position),key:norm(r.Name+" "+r.Club),vlo:num(r["Transfer Value"]),exp:expNum(r.Expires)}));
+  P=raw.map((r,i)=>({r,i,s:derive(r),groups:groups(r.Position),pset:psetOf(r.Position),key:norm(r.Name+" "+r.Club+" "+(r.Nat||"")),vlo:num(r["Transfer Value"]),exp:expNum(r.Expires)}));
+  MCC=null;JCC=null;NATC=null;
   $("drop").style.display="none";$("app").style.display="grid";
   $("meta").textContent=meta||`${P.length} players loaded`;initLg();mins={};posSel="All";sfs=[];SR=defSR();cmpDone[""]=cmpDone.k=false;$("ghl").value="";$("mbf").innerHTML=$("tff").innerHTML="";build();clubOpts();srSummary();compute();view();
   tab($("app").dataset.tab||"scout");
@@ -796,7 +841,7 @@ async function loadGame(rescan){
     if(!d.ok)throw new Error(d.error||"The game could not be read.");
     DETECTED=(d.my_clubs||[])[0]||null;GDATE=d.date||null;
     start(fromJSON(d.rows),`${metaText(d)} · read at ${new Date().toLocaleTimeString()}`);
-    $("reload").hidden=false;$("scope2l").hidden=false;$("lstat").textContent="";
+    $("reload").hidden=false;$("snap").hidden=false;snapBtn();$("scope2l").hidden=false;$("lstat").textContent="";
   }catch(e){
     // errors in the tool's own code show what went wrong, so a report can say which part failed
     const own=e instanceof TypeError||e instanceof RangeError||e instanceof ReferenceError;if(own)console.error(e);
@@ -807,6 +852,7 @@ async function loadGame(rescan){
 function setScope(v){scope=v;["scope","scope2"].forEach(id=>$(id).value=v);try{localStorage.setItem("fm_scope",v)}catch(e){}}
 $("live").onclick=()=>loadGame(false);
 $("reload").onclick=()=>loadGame(true);
+$("snap").onclick=saveSnapshot;
 $("scope").onchange=e=>setScope(e.target.value);
 $("scope2").onchange=e=>{setScope(e.target.value);loadGame(false);};
 
@@ -837,7 +883,7 @@ function addFolder(n){const x={id:"f"+Date.now().toString(36)+FD.length,name:n};
 function fdOpen(title,html,act){$("fdt").textContent=title;$("fdb").innerHTML=html;fdAct=act;if(!$("fdlg").open)$("fdlg").showModal();$("fdn")?.focus();}
 const fdForm=(btn,val="")=>`<form class="fdf" id="fdf"><input type="text" id="fdn" maxlength="40" placeholder="Folder name" aria-label="Folder name" value="${esc(val)}"><button class="btn" type="submit">${btn}</button></form><p class="fderr" id="fderr"></p>`;
 function fdName(not){const n=$("fdn").value.trim();if(!n){$("fderr").textContent="Enter a folder name.";return null;}if(nameTaken(n,not)){$("fderr").textContent="You already have a folder with this name.";return null;}return n;}
-function setPlayerFolder(p,f){const k=pid(p);SL[k]={name:p.r.Name,club:p.r.Club,pos:p.r.Position,f};saveSL();redrawLists();$("fdlg").close();}
+function setPlayerFolder(p,f){const k=pid(p);SL[k]={name:p.r.Name,club:p.r.Club,pos:p.r.Position,f,note:SL[k]?.note||""};saveSL();redrawLists();$("fdlg").close();}
 // ☆ opens this window, ★ reopens it to move or remove the player
 function askFolder(p){const k=pid(p),on=k in SL,cur=on?foldOf(k):null;
   const list=FD.map(x=>`<button type="button" class="btn${x.id===cur?"":" ghost"}" data-act="put" data-v="${esc(x.id)}">${esc(x.name)}${x.id===cur?" ✓":""}</button>`).join("");
@@ -862,9 +908,9 @@ function clubOpts(){
   $("myclub").innerHTML=(MY==null?'<option value="">Choose your club…</option>':"")+ks.map(k=>`<option value="${esc(k)}">${esc(names[k])}${k===det?" (detected)":""}</option>`).join("");
   $("myclub").value=MY??"";
 }
-$("myclub").addEventListener("change",e=>{MY=e.target.value||null;
+$("myclub").addEventListener("change",e=>{MY=e.target.value||null;MCC=null;JCC=null;
   try{localStorage.setItem("fm_myclub",JSON.stringify({det:DETECTED?String(DETECTED.uid):null,club:MY}))}catch(x){}
-  cmpDone.k=false;clubOpts();if(SR.ref==="my"){compute(SR);srSummary();}redrawLists();});
+  cmpDone.k=false;clubOpts();if(SR.ref==="my"){compute(SR);srSummary();}snapBtn();redrawLists();});
 // A player out on loan belongs to the team that lists him at his parent club
 let qTeam="";const qPos=new Set();
 // Position filter chips, shared by Squad and My Club graphs: pick one or more, a player needs any of them.
@@ -887,7 +933,8 @@ function renderSquad(){
   $("qteams").innerHTML=chip("",`All (${all.length})`)+ks.map(t=>chip(t,`${t} (${cnt[t]})`)).join("");
   const inTeam=qTeam?all.filter(p=>teamOf(p)===qTeam):all;$("qpos").innerHTML=posChips(inTeam,qPos);
   const rows=inTeam.filter(p=>inPos(p,qPos)&&inFoot(p,$("qfoot").value)),out=rows.filter(p=>ownerOf(p)===MY).length;
-  drawTable({rows,tv:$("qtv").value,st:ST.sq,th:$("qth"),tb:$("qtb"),club:true,limit:1000,
+  squadSummary(inTeam);
+  drawTable({rows,tv:$("qtv").value,st:ST.sq,th:$("qth"),tb:$("qtb"),club:true,limit:1000,trend:true,
     empty:MY==null?"Choose your club above. It is detected automatically when you load from the game.":$("qfoot").value||qPos.size?"No players match these filters.":"No players found for this club."});
   $("qcnt").textContent=MY==null?"":`${rows.length} players`+(out?`, ${out} out on loan`:"");
   $("qnote").textContent=`Every player whose contract is with your club, including youth and reserve players and players out on loan, plus players on loan to you. Percentiles are measured against the percentile pool's players in ${refName()} (${cMin}+ minutes).`;
@@ -899,7 +946,7 @@ function renderShort(){
   $("lfolders").innerHTML=chip("","All")+FD.map(x=>chip(x.id,x.name)).join("")+(cnt.u?chip("u","Unfiled"):"")+`<button class="chip" id="lnew" title="New folder" aria-label="New folder">+</button>`+(slF&&slF!=="u"?`<span style="flex:1"></span><button class="chip" id="lren">Rename</button><button class="chip" id="ldel">Delete folder</button>`:"");
   $("lclear").textContent=slF?"Clear this folder":"Clear shortlist";
   const all=P.filter(p=>inSL(p)&&inFold(p,slF)),rows=all.filter(p=>inFoot(p,$("lfoot").value)),found=new Set(P.filter(inSL).map(pid)),miss=keys.filter(k=>!found.has(k)&&(!slF||foldOf(k)===slF));
-  drawTable({rows,tv:$("ltv").value,st:ST.sl,th:$("lth"),tb:$("ltb"),limit:1000,
+  drawTable({rows,tv:$("ltv").value,st:ST.sl,th:$("lth"),tb:$("ltb"),limit:1000,notes:true,trend:true,
     empty:all.length?"No shortlisted players match this foot.":slF?"This folder is empty. Click ☆ next to a player in World Scout to add them.":"Your shortlist is empty. Click ☆ next to a player in World Scout to add them."});
   $("lcnt").textContent=rows.length<all.length?`${rows.length} of ${all.length} players`:`${rows.length} players`;
   $("lmiss").innerHTML=miss.length?`<h3>Not in the loaded data</h3><p class="mut" style="font-size:.85em;margin:0 0 4px">These players could not be found in this save's data (a different save, or retired).</p>`+miss.map(k=>`<div class="miss"><button class="x" data-miss="${esc(k)}" aria-label="Remove from shortlist" title="Remove">−</button><span>${esc(SL[k].name)} <small class="mut">${esc(SL[k].pos||"")} · ${esc(SL[k].club||"")}</small></span></div>`).join(""):"";
@@ -908,6 +955,12 @@ $("qteams").addEventListener("click",e=>{const t=e.target.dataset.team;if(t==nul
 $("qpos").addEventListener("click",e=>{const k=e.target.dataset.pos;if(k==null)return;posPick(qPos,k);renderSquad();});
 $("lmiss").addEventListener("click",e=>{const k=e.target.dataset.miss;if(k==null)return;delete SL[k];saveSL();renderShort();});
 $("lclear").onclick=()=>{const ks=Object.keys(SL).filter(k=>!slF||foldOf(k)===slF);if(!ks.length||!confirm(slF?"Remove every player from this folder?":"Remove every player from your shortlist?"))return;ks.forEach(k=>delete SL[k]);saveSL();redrawLists();};
+$("lexp").onclick=()=>{const rows=P.filter(p=>inSL(p)&&inFold(p,slF)&&inFoot(p,$("lfoot").value));if(!rows.length)return;
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`,hdr=["Name","Position","Age","Nat","Club","League","Join Chance","Mins","Av Rat","Perf","Ability","vs Age","Value","Wage £/wk","Expires","Folder","Notes"];
+  const lines=[hdr.map(q).join(","),...rows.map(p=>{const k=pid(p),jc=joinChance(p),pf=perf(p),ab=bestAbil(p),va=vsAge(p);
+    return [p.r.Name,p.r.Position,f0(p.r.Age),p.r.Nat,p.r.Club||"Free Agent",p.r.Division||"",jc.label,p.r.Mins||0,isNaN(p.r["Av Rat"])?"":p.r["Av Rat"].toFixed(2),isNaN(pf)?"":pf,isNaN(ab)?"":ab.toFixed(1),isNaN(va)?"":va+"%",p.r["Transfer Value"]||"",isNaN(p.r.Wage)?"":p.r.Wage,p.r.Expires||"",foldLabel(k),SL[k]?.note||""].map(q).join(",");})];
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"}));a.download=`fmmt27-shortlist${slF?"-"+foldLabel(Object.keys(SL).find(k=>foldOf(k)===slF)||"").replace(/[^a-z0-9]+/gi,"-").toLowerCase():""}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};
+$("ltb").addEventListener("input",e=>{const inp=e.target.closest(".slnote");if(!inp)return;const k=inp.dataset.note;if(k&&SL[k]){SL[k].note=inp.value;saveSL();}});
 $("lfolders").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
   if(b.id==="lnew"){fdOpen("New folder",fdForm("Create"),{name:()=>{const n=fdName();if(n){slF=addFolder(n);$("fdlg").close();renderShort();}}});return;}
   const x=FD.find(q=>q.id===slF);
@@ -925,13 +978,13 @@ $("kfold").addEventListener("change",()=>{cmpDone.k=false;fillCmp("k");});
 // Player tables: header click sorts, ☆ toggles the shortlist, anything else opens the profile
 [["th","tb","scout",view],["qth","qtb","sq",()=>renderSquad()],["lth","ltb","sl",()=>renderShort()]].forEach(([th,tb,s,draw])=>{
   $(th).addEventListener("click",e=>{const k=e.target.closest("th")?.dataset.k;if(!k)return;const st=ST[s];st.d=k===st.k?-st.d:(["name","pos","club","status","star"].includes(k)?1:-1);st.k=k;draw();});
-  $(tb).addEventListener("click",e=>{const b=e.target.closest(".star");if(b){toggleSL(P[+b.dataset.star]);return;}const tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i);});
+  $(tb).addEventListener("click",e=>{if(e.target.closest(".slnote"))return;const b=e.target.closest(".star");if(b){toggleSL(P[+b.dataset.star]);return;}const tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i);});
 });
 saveSL();
 // ---------- Search window (v0.6: includes everything the old side panel had) ----------
 // mmin/mmax only filter the list; pool is the minimum minutes to be in the percentile pool
 const POOL=300;
-const defSR=()=>({q:"",foot:"",pos:new Set(),lg:new Set(),amin:14,amax:60,mmin:null,mmax:null,pool:POOL,ref:"",wmin:null,wmax:null,vmin:null,vmax:null,within:false,conds:[]});
+const defSR=()=>({q:"",foot:"",jc:"",nat:"",pos:new Set(),lg:new Set(),amin:14,amax:60,mmin:null,mmax:null,pool:POOL,ref:"",wmin:null,wmax:null,vmin:null,vmax:null,within:false,conds:[]});
 let SR=defSR(),SD=defSR(),cMin=300,cWithin=false,srTimer=0;
 const cloneS=s=>({...s,pos:new Set(s.pos),lg:new Set(s.lg),conds:s.conds.map(c=>({...c}))});
 const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
@@ -947,14 +1000,17 @@ function matchSR(p,S){
   if(S.pos.size&&![...S.pos].some(k=>p.pset.has(k)))return false;
   if(S.lg.size&&!S.lg.has(lkey(p.r.Division)))return false;
   if(!inFoot(p,S.foot))return false;
+  if(S.jc&&!jcMatch(p,S.jc))return false;
+  if(S.nat&&!inNat(p,S.nat))return false;
   return S.conds.every(c=>{if(!c.on||isNaN(c.v))return true;const v=c.m==="pct"?(p.pct||{})[c.k]:p.s[c.k];if(v==null||isNaN(v))return false;return c.op==="le"?v<=c.v:v>=c.v;});
 }
 const ensureCompute=S=>{if(S.pool!==cMin||S.within!==cWithin||(S.ref||"")!==cRef)compute(S);};
 const PITCH=[["ST(C)","ST",1,3],["AM(L)","AML",2,1],["AM(C)","AMC",2,3],["AM(R)","AMR",2,5],["M(L)","ML",3,1],["M(C)","MC",3,3],["M(R)","MR",3,5],["DM","DM",4,3],["WB(L)","WBL",4,1],["WB(R)","WBR",4,5],["D(L)","DL",5,1],["D(C)","DC",5,3],["D(R)","DR",5,5],["GK","GK",6,3]];
 const statOpts=sel=>Object.keys(GC).map(g=>`<optgroup label="${g}">`+STAT_LIST.filter(x=>x[0]===g).map(x=>`<option value="${esc(x[1])}"${x[1]===sel?" selected":""}>${esc(x[2])}</option>`).join("")+"</optgroup>").join("");
-const srActive=S=>(S.q.trim()?1:0)+(S.foot?1:0)+(S.pos.size?1:0)+(S.lg.size?1:0)+((S.amin>14||S.amax<60)?1:0)+((S.mmin!=null||S.mmax!=null)?1:0)+(S.pool!==POOL?1:0)+((S.wmin!=null||S.wmax!=null)?1:0)+((S.vmin!=null||S.vmax!=null)?1:0)+(S.within?1:0)+(S.ref?1:0)+S.conds.filter(c=>c.on).length;
+const srActive=S=>(S.q.trim()?1:0)+(S.foot?1:0)+(S.jc?1:0)+(S.nat?1:0)+(S.pos.size?1:0)+(S.lg.size?1:0)+((S.amin>14||S.amax<60)?1:0)+((S.mmin!=null||S.mmax!=null)?1:0)+(S.pool!==POOL?1:0)+((S.wmin!=null||S.wmax!=null)?1:0)+((S.vmin!=null||S.vmax!=null)?1:0)+(S.within?1:0)+(S.ref?1:0)+S.conds.filter(c=>c.on).length;
 function srText(S){const t=[];if(S.q.trim())t.push(`“${S.q.trim()}”`);if(S.pos.size)t.push("Positions: "+[...S.pos].join(", "));
   if(S.lg.size){const n=[...S.lg].map(k=>(LS[k]||{}).name||k);t.push("Leagues: "+(n.length>3?n.slice(0,3).join(", ")+` +${n.length-3} more`:n.join(", ")));}if(S.amin>14||S.amax<60)t.push(`Age ${S.amin}–${S.amax}`);if(S.foot)t.push(`${S.foot} foot`);
+  if(S.jc)t.push("Join: "+(S.jc==="hi"?"Likely":"Likely/Possible"));if(S.nat)t.push("Nat: "+(S.nat==="__loc"?"Local":S.nat==="__for"?"Foreign":S.nat));
   if(S.mmin!=null||S.mmax!=null)t.push(`Minutes ${S.mmin??0}–${S.mmax==null?"any":S.mmax}`);if(S.pool!==POOL)t.push(`Percentile pool ≥ ${S.pool} mins`);if(S.wmin!=null||S.wmax!=null)t.push(`Wage £${S.wmin??0}k–${S.wmax==null?"any":"£"+S.wmax+"k"}`);if(S.vmin!=null||S.vmax!=null)t.push(`Value £${S.vmin??0}K–${S.vmax==null?"any":"£"+S.vmax+"K"}`);if(S.within)t.push("Percentiles within position group");if(S.ref)t.push("Percentiles against "+refName(S.ref));
   S.conds.filter(c=>c.on).forEach(c=>t.push(`${STATS[c.k].label} ${c.op==="le"?"≤":"≥"} ${isNaN(c.v)?"?":c.v}${c.m==="pct"?" pct":""}`));return t.join(" · ");}
 function srSummary(){const n=srActive(SR),lbl=n?`Edit search (${n})`:"New search";$("sedit").textContent=lbl;$("sclr").hidden=!n;$("ssum").hidden=!n;$("ssum").textContent=srText(SR)+(SR.ref&&refWarn()?" · ⚠ "+refWarn():"");}
@@ -985,7 +1041,7 @@ function srRef(){const cnt={};P.forEach(p=>{const k=lkey(p.r.Division);if(k)cnt[
   const ks=Object.keys(LS).sort((a,b)=>(LIDX[a]??1e9)-(LIDX[b]??1e9)||(cnt[b]||0)-(cnt[a]||0)),my=myLeague();
   $("sref").innerHTML=`<option value="">All leagues</option><option value="top5">Top 5 leagues</option><option value="my"${my?"":" disabled"}>My league${my?" ("+esc(LS[my]?.name||my)+")":" (choose your club first)"}</option><optgroup label="One league">`+ks.map(k=>`<option value="${esc(k)}">${esc(LS[k].name)}</option>`).join("")+"</optgroup>";
   $("sref").value=SD.ref;}
-function srRender(){srPitch();$("srq").value=SD.q;$("samin").value=SD.amin;$("samax").value=SD.amax;$("smmin").value=SD.mmin??"";$("spool").value=SD.pool;$("smmax").value=SD.mmax??"";$("swmin").value=SD.wmin??"";$("swmax").value=SD.wmax??"";$("svmin").value=SD.vmin??"";$("svmax").value=SD.vmax??"";$("swithin").checked=SD.within;$("sfoot").value=SD.foot;$("slq").value="";srRef();srLeagues();srConds();srCount();}
+function srRender(){srPitch();$("srq").value=SD.q;$("samin").value=SD.amin;$("samax").value=SD.amax;$("smmin").value=SD.mmin??"";$("spool").value=SD.pool;$("smmax").value=SD.mmax??"";$("swmin").value=SD.wmin??"";$("swmax").value=SD.wmax??"";$("svmin").value=SD.vmin??"";$("svmax").value=SD.vmax??"";$("swithin").checked=SD.within;$("sfoot").value=SD.foot;$("sjc").value=SD.jc;$("snat").innerHTML=natOpts();$("snat").value=SD.nat;$("slq").value="";srRef();srLeagues();srConds();srCount();}
 function srOpen(){SD=cloneS(SR);srRender();$("sdlg").showModal();}
 $("sedit").onclick=srOpen;
 $("sclr").onclick=()=>{SR=defSR();ensureCompute(SR);srSummary();view();};
@@ -1003,6 +1059,8 @@ $("spool").addEventListener("input",e=>{SD.pool=nv(e.target.value)??0;clearTimeo
 $("swithin").addEventListener("change",e=>{SD.within=e.target.checked;srCount();});
 $("sref").addEventListener("change",e=>{SD.ref=e.target.value;srCount();});
 $("sfoot").addEventListener("change",e=>{SD.foot=e.target.value;srCount();});
+$("sjc").addEventListener("change",e=>{SD.jc=e.target.value;srCount();});
+$("snat").addEventListener("change",e=>{SD.nat=e.target.value;srCount();});
 $("slg").addEventListener("change",e=>{const k=e.target.dataset.k;if(k==null)return;e.target.checked?SD.lg.add(k):SD.lg.delete(k);srLeagues();srCount();});
 $("slq").addEventListener("input",srLeagues);
 $("slall").onclick=()=>{SD.lg.clear();srLeagues();srCount();};
@@ -1034,7 +1092,7 @@ const gv=(p,k)=>k[0]==="r"?p.r[k.slice(2)]:p.s[k.slice(2)];
 const isN=v=>v==null||(typeof v==="number"&&isNaN(v));
 function renderAll(){
   const m=$("am").value,q=$("aq").value.toLowerCase();
-  const raw=Object.keys(P[0].r).map(k=>["r:"+k,k]);
+  const raw=Object.keys(P[0].r).filter(k=>!k.startsWith("_")).map(k=>["r:"+k,k]);
   const calc=STAT_LIST.map(x=>["s:"+x[1],x[2]]);
   const cols=m==="Raw"?raw:m==="Calculated"?[["r:Name","Name"],["r:Position","Position"],["r:Club","Club"],...calc]:[...raw,...calc];
   if(!cols.some(c=>c[0]===aSort))aSort="r:Name";
@@ -1320,6 +1378,7 @@ $("toCmp").addEventListener("click",()=>{const i=$("toCmp").dataset.i;if(i==null
   const p=P[+i],k=CLUB.includes($("app").dataset.tab)&&cmpList("k").includes(p);
   if(k){tab("kc");$("kc0").value=i;renderCmp("k");}else{$("c0").value=i;tab("cmp");}});
 $("toSl").addEventListener("click",()=>{const i=$("toSl").dataset.i;if(i==null)return;askFolder(P[+i]);});
+$("toFm").addEventListener("click",()=>{const i=$("toFm").dataset.i;if(i!=null)openInFm(P[+i]);});
 document.querySelectorAll("#mtabs button,#tabs button,#ctabs button").forEach(b=>b.onclick=()=>tab(b.dataset.t));
 // Type-to-search player box: a hidden input holds the player index and fires "change" like a select did.
 const pickLabel=p=>`${p.r.Name} · ${p.r.Position} (${p.r.Club})`;
@@ -1386,39 +1445,351 @@ function valueModel(){if(VM)return VM;
 function fairValue(p){const m=valueModel(),g=grpOf(p),b=m.beta[g],pf=perfFor(p,g);if(!b||isNaN(pf)||isNaN(p.r.Age))return NaN;
   return 10**m.feat(p,pf).reduce((s,v,i)=>s+v*b[i],0);}
 
-// Filters shared by Moneyball and Tactical fit: age, league, maximum value and wage, foot (plus one of the tab's own)
+// ---------- Club context, Strict Join Chance & Nationality helpers ----------
+let MCC=null,JCC=null,NATC=null;
+function myClubCtx(){
+  if(MY==null)return null;
+  if(MCC&&MCC.my===MY&&MCC.P===P)return MCC;
+  const squad=P.filter(p=>cidOf(p)===MY&&!p.r["Loaned From"]);
+  const sen=squad.filter(senior),pool=sen.length?sen:squad;
+  const reps=pool.map(p=>p.r["Club Rep"]).filter(x=>isFinite(x)&&x>0);
+  const detMatch=DETECTED&&String(DETECTED.uid)===MY;
+  let rep=detMatch&&DETECTED.rep?DETECTED.rep:(reps.length?Math.round(med(reps)):0);
+  if(!rep){const prs=pool.map(p=>p.r.Rep).filter(x=>isFinite(x)&&x>0);rep=prs.length?Math.round(med(prs)):5000;}
+  const nats={};pool.forEach(p=>{const n=p.r["Club Nat"];if(n)nats[n]=(nats[n]||0)+1;});
+  const nat=(detMatch&&DETECTED.nat)||Object.keys(nats).sort((a,b)=>nats[b]-nats[a])[0]||"";
+  const wages=pool.map(p=>p.r.Wage).filter(x=>isFinite(x)&&x>0);
+  const vals=pool.map(p=>p.vlo).filter(x=>isFinite(x)&&x>0);
+  const maxWage=wages.length?Math.max(...wages):0,medWage=wages.length?med(wages):0,medVal=vals.length?med(vals):0;
+  const lg=myLeague(),lgIdx=lg in LIDX?LIDX[lg]:1e9;
+  const name=(detMatch&&DETECTED.name)||(pool[0]?.r.Club)||"Your club";
+  return MCC={my:MY,P,name,rep,nat,maxWage,medWage,medVal,lg,lgIdx};
+}
+const monthsSince=iso=>{if(!GDATE||!iso)return NaN;const [y,m]=GDATE.split("-").map(Number),[sy,sm]=String(iso).split("-").map(Number);return sy&&sm?(y-sy)*12+(m-sm):NaN;};
+const jcRank=t=>t==="hi"?2:t==="md"?1:0;
+const capTier=(cur,cap)=>jcRank(cur)>jcRank(cap)?cap:cur;
+function joinChance(p){
+  const ctx=myClubCtx();
+  if(!ctx)return {tier:"md",label:"–",score:50,why:"Choose your club in Squad to estimate join chance"};
+  if(!JCC||JCC.my!==MY||JCC.P!==P||JCC.d!==GDATE)JCC={my:MY,P,d:GDATE,m:new Map()};
+  const hit=JCC.m.get(p.i);if(hit)return hit;
+  const r=p.r,ml=monthsLeft(p),ms=monthsSince(r["Contract Start"]);
+  const isFree=!r.Club||(!isNaN(ml)&&ml<=0);
+  const bosman=!isFree&&!isNaN(ml)&&ml<=6,exp12=!isFree&&!isNaN(ml)&&ml<=12;
+  const repCur=isFinite(r.Rep)?r.Rep:0,repW=isFinite(r["World Rep"])?r["World Rep"]:0;
+  const cRep=isFinite(r["Club Rep"])&&r["Club Rep"]>0?r["Club Rep"]:0;
+  const wage=isFinite(r.Wage)?r.Wage:0;
+  const sameNat=!!(ctx.nat&&r.Nat===ctx.nat),sameCountry=!!(ctx.nat&&r["Club Nat"]===ctx.nat);
+  const pers=Array.isArray(r._pers)&&r._pers.length>=3?r._pers:[10,10,10];
+  const [adapt,amb,loy]=pers;
+  const reasons=[];let cap="hi",sc=50;
+  if(!isFree&&!isNaN(ms)&&ms<6){cap=capTier(cap,"lo");sc-=30;reasons.push(`Signed ${ms<=0?"this month":ms+" mo ago"}`);}
+  else if(!isFree&&!isNaN(ms)&&ms<9){cap=capTier(cap,"md");sc-=12;reasons.push(`Signed ${ms} mo ago`);}
+  if(repCur){
+    const dRep=ctx.rep-repCur,dW=ctx.rep-repW;
+    if(!isFree&&!bosman){
+      if(dRep<-900||dW<-700||(cRep&&cRep>ctx.rep+1100)){cap=capTier(cap,"lo");reasons.push("Reputation above club");}
+    }else if(dRep<-1400||dW<-1100){cap=capTier(cap,"lo");reasons.push("Reputation well above club");}
+    if(dRep>=300){sc+=22;reasons.push("Rep fits club");}
+    else if(dRep>=0){sc+=14;reasons.push("Rep fits club");}
+    else if(dRep>=-350)sc+=4;
+    else if(dRep>=-700){sc-=12;cap=capTier(cap,"md");reasons.push("Rep slightly high");}
+    else{sc-=30;reasons.push("Rep too high");}
+  }
+  if(!isFree&&cRep){
+    const dC=ctx.rep-cRep;
+    if(dC>=300){sc+=15;reasons.push("Step up in club rep");}
+    else if(dC>=-150)sc+=5;
+    else if(dC>=-500){sc-=10;if(!bosman&&!sameNat&&!sameCountry)cap=capTier(cap,"md");}
+    else{sc-=25;if(!bosman)cap=capTier(cap,"md");reasons.push("Bigger current club");}
+  }
+  if(!isFree&&ctx.maxWage>0&&wage>0){
+    const wr=wage/ctx.maxWage;
+    if(wr>2.5&&!(bosman&&r.Age>=30)){cap=capTier(cap,"lo");sc-=26;reasons.push("Wage far above club max");}
+    else if(wr>1.25){cap=capTier(cap,"md");sc-=10;reasons.push("Wage above club max");}
+    else if(wr<=0.85){sc+=12;reasons.push("Wage affordable");}
+    else sc+=5;
+  }
+  if(isFree){sc+=28;reasons.push("Free agent");}
+  else if(bosman){sc+=18;reasons.push("Expiring ≤6 mo");}
+  else if(exp12){sc+=10;reasons.push("Expiring ≤12 mo");}
+  if(sameNat){sc+=12;reasons.push("Local player");}
+  else if(sameCountry){sc+=8;reasons.push("Plays in your country");}
+  if(r.Age>=30&&(isFree||exp12))sc+=6;
+  if(!isFree&&!exp12&&loy>=15&&cRep>=ctx.rep-200){cap=capTier(cap,"md");sc-=8;reasons.push("Settled at current club");}
+  if(!isFree&&amb>=16&&repCur>ctx.rep-100){cap=capTier(cap,"md");sc-=6;}
+  if(!isFree&&!sameNat&&!sameCountry&&adapt<=7){cap=capTier(cap,"md");sc-=8;}
+  sc=Math.max(0,Math.min(100,Math.round(sc)));
+  const raw=sc>=72?"hi":sc>=46?"md":"lo";
+  const tier=capTier(raw,cap);
+  const label=tier==="hi"?"Likely":tier==="md"?"Possible":"Unlikely";
+  const res={tier,label,score:sc,why:reasons.slice(0,3).join(" · ")||label};
+  JCC.m.set(p.i,res);return res;
+}
+const jcMatch=(p,f)=>{if(!f)return true;const t=joinChance(p).tier;return f==="hi"?t==="hi":t==="hi"||t==="md";};
+const jcHtml=jc=>`<span class="jc ${jc.tier}" title="${esc(jc.why)}">${esc(jc.label)}</span>`;
+function natOpts(){
+  const ctx=myClubCtx();
+  if(!NATC||NATC.P!==P){const c={};P.forEach(p=>{if(p.r.Nat)c[p.r.Nat]=(c[p.r.Nat]||0)+1;});NATC={P,list:Object.keys(c).sort((a,b)=>c[b]-c[a]||a.localeCompare(b))};}
+  const loc=ctx?.nat?`<option value="__loc">Local only (${esc(ctx.nat)})</option><option value="__for">Foreign only (non-${esc(ctx.nat)})</option>`:"";
+  return `<option value="">Any nationality</option>${loc}<optgroup label="Country">`+NATC.list.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("")+"</optgroup>";
+}
+function inNat(p,v){if(!v)return true;const ctx=myClubCtx();if(v==="__loc")return !ctx?.nat||p.r.Nat===ctx.nat;if(v==="__for")return !ctx?.nat||p.r.Nat!==ctx.nat;return p.r.Nat===v;}
+
+function quickCompare(p,preferredPos){
+  const {slots,xi}=tfXI();
+  let mine=null;
+  if(preferredPos){const idx=slots.indexOf(preferredPos);if(idx>=0&&xi[idx])mine=xi[idx];}
+  if(!mine){const idx=slots.findIndex((s,i)=>xi[i]&&p.pset.has(s));if(idx>=0)mine=xi[idx];}
+  if(!mine&&MY!=null){mine=myPool().filter(q=>q!==p&&[...p.pset].some(s=>q.pset.has(s))).sort((a,b)=>(b.r.Mins||0)-(a.r.Mins||0))[0]||null;}
+  const g=grpOf(p),cat=g==="GK"?"Goalkeeping":g==="DEF"?"Defending":g==="ST"?"Shooting":"Creating";
+  $("c0").value=String(p.i);$("c1").value=mine?String(mine.i):"";$("c2").value="";
+  if(!$("cm").options.length)$("cm").innerHTML=Object.keys(GC).map(k=>`<option>${k}</option>`).join("");
+  $("cm").value=cat;cmpDone[""]=true;
+  tab("cmp");renderCmp("");
+}
+
 function recFilters(id,extra){const my=myLeague(),opt=(v,l)=>`<option value="${esc(v)}">${esc(l)}</option>`;
-  $(id).innerHTML=`<label class="mut">Age <input type="number" data-r="amin" min="14" max="60" placeholder="any" aria-label="Minimum age"> to <input type="number" data-r="amax" min="14" max="60" placeholder="any" aria-label="Maximum age"></label>`
-   +`<label class="mut">League <select data-r="lg" style="width:auto;max-width:240px" aria-label="League">${opt("","Any league")}${opt("top5","Top 5 leagues")}${my?opt("ge","My league or stronger")+opt("my",`My league (${LS[my]?.name||my})`):""}<optgroup label="One league">${Object.keys(LS).sort((a,b)=>(LIDX[a]??1e9)-(LIDX[b]??1e9)||LS[a].name.localeCompare(LS[b].name)).map(k=>opt(k,LS[k].name)).join("")}</optgroup></select></label>`
+  $(id).innerHTML=`<label class="mut">Join <select data-r="jc" style="width:auto" aria-label="Join chance">${opt("","Any")}${opt("hi","Likely only")}${opt("md","Likely + Possible")}</select></label>`
+   +`<label class="mut">Age <input type="number" data-r="amin" min="14" max="60" placeholder="any" aria-label="Minimum age"> to <input type="number" data-r="amax" min="14" max="60" placeholder="any" aria-label="Maximum age"></label>`
+   +`<label class="mut">League <select data-r="lg" style="width:auto;max-width:220px" aria-label="League">${opt("","Any league")}${my?opt("le","Similar tier or lower")+opt("ge","My league or stronger")+opt("my",`My league (${LS[my]?.name||my})`):""}${opt("top5","Top 5 leagues")}<optgroup label="One league">${Object.keys(LS).sort((a,b)=>(LIDX[a]??1e9)-(LIDX[b]??1e9)||LS[a].name.localeCompare(LS[b].name)).map(k=>opt(k,LS[k].name)).join("")}</optgroup></select></label>`
+   +`<label class="mut">Nation <select data-r="nat" style="width:auto;max-width:170px" aria-label="Nationality">${natOpts()}</select></label>`
    +`<label class="mut">Max value £M <input type="number" data-r="val" min="0" step="any" placeholder="any" aria-label="Maximum market value in millions of pounds"></label>`
    +`<label class="mut">Max wage £k/wk <input type="number" data-r="wage" min="0" step="any" placeholder="any" aria-label="Maximum weekly wage in thousands of pounds"></label>`
-   +`<label class="mut">Foot <select data-r="foot" style="width:auto" aria-label="Preferred foot">${opt("","Any foot")}${opt("Left","Left")}${opt("Right","Right")}${opt("Either","Either")}</select></label>`+extra;}
-function readRF(id){const o={};$(id).querySelectorAll("[data-r]").forEach(e=>{o[e.dataset.r]=e.value;});return o;}
+   +`<label class="mut">Foot <select data-r="foot" style="width:auto" aria-label="Preferred foot">${opt("","Any foot")}${opt("Left","Left")}${opt("Right","Right")}${opt("Either","Either")}</select></label>`
+   +`<label class="mut" style="cursor:pointer"><input type="checkbox" data-r="noloan"> Exclude loanees</label>`+extra;}
+function readRF(id){const o={};$(id).querySelectorAll("[data-r]").forEach(e=>{o[e.dataset.r]=e.type==="checkbox"?e.checked:e.value;});return o;}
 function rfMatch(p,f){const a=nv(f.amin),b=nv(f.amax),v=nv(f.val),w=nv(f.wage);
   if(a!=null&&!(p.r.Age>=a))return false;if(b!=null&&!(p.r.Age<=b))return false;
-  if(v!=null&&!(hasVal(p)&&p.vlo<=v*1e6))return false;if(w!=null&&!((p.r.Wage||0)<=w*1e3))return false;
+  if(v!=null&&!(hasVal(p)?p.vlo<=v*1e6:(!p.r.Club||monthsLeft(p)<=0)))return false;
+  if(w!=null&&!((p.r.Wage||0)<=w*1e3))return false;
   if(!inFoot(p,f.foot))return false;
-  // "My league or stronger" goes by the league ranking (Fmplaya's ratings); leagues it doesn't list count as weaker
-  if(f.lg){const k=lkey(p.r.Division);if(f.lg==="top5"?!TOP5.includes(k):f.lg==="ge"?!((LIDX[k]??1e9)<=(LIDX[myLeague()]??1e9)):f.lg==="my"?k!==myLeague():k!==f.lg)return false;}
-  if(f.ml){const ml=monthsLeft(p),m=nv(f.ml);if(m!=null&&!(ml>=m))return false;}
+  if(f.jc&&!jcMatch(p,f.jc))return false;
+  if(f.nat&&!inNat(p,f.nat))return false;
+  if(f.noloan&&p.r["Loaned From"])return false;
+  if(f.lg){const k=lkey(p.r.Division),myI=LIDX[myLeague()]??1e9,kI=LIDX[k]??1e9;
+    if(f.lg==="top5"?!TOP5.includes(k):f.lg==="ge"?!(kI<=myI):f.lg==="le"?!(kI>=myI-15):f.lg==="my"?k!==myLeague():k!==f.lg)return false;}
+  const ml=monthsLeft(p),mn=nv(f.ml),mx=nv(f.mlmax);
+  if(mn!=null&&!(ml>=mn))return false;
+  if(mx!=null&&!(ml<=mx))return false;
   return true;}
 const vdHtml=(v,c)=>`<span class="vd ${c}">${v}</span>`;
-// months of contract left from the in-game date
 const monthsLeft=p=>{if(!GDATE||isNaN(p.exp))return NaN;const [y,m]=GDATE.split("-").map(Number);return (Math.floor(p.exp/1e4)-y)*12+(Math.floor(p.exp/100)%100-m);};
-const mlText=ml=>isNaN(ml)?"–":ml<=0?"Ended":ml+" mo";
+const mlText=(ml,isFree=false)=>isFree?"Free":isNaN(ml)?"–":ml<=0?"Ended":ml+" mo";
+// ---------- Toast, Open in FM, roles, league strength, snapshots, release clauses ----------
+// A short message at the bottom of the window (inside an open dialog, which sits above the page)
+let TT=0;
+function toast(msg,warn){const t=$("toast"),host=document.querySelector("dialog[open]")||document.body;if(t.parentNode!==host)host.appendChild(t);
+  t.textContent=msg;t.classList.toggle("warn",!!warn);t.classList.add("on");clearTimeout(TT);TT=setTimeout(()=>t.classList.remove("on"),4200);}
+// FM27 has no link scheme and the reader never writes to the game, so this copies the name and brings FM27 forward
+async function openInFm(p){if(!p)return;const name=p.r.Name,uid=isNum(p.r.UID)?p.r.UID:null,db_id=isNum(p.r._dbid)?p.r._dbid:null;let d=null;
+  toast(`Opening '${name}' in FM27…`);
+  if(/^https?:/.test(location.protocol)){try{const r=await fetch("/api/open-in-fm",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,uid,db_id})});d=await r.json();}catch(e){d=null;}}
+  if(d&&d.direct){toast(`Opened '${name}' directly in FM27`);return;}
+  if(d&&d.opened){toast(`Opened '${name}' in FM27`);return;}
+  if(d&&d.copied){toast(d.focused?`Focused FM27 & copied '${name}' — press Ctrl+F, Ctrl+V`:`Copied '${name}' — switch to FM27 and press Ctrl+F, Ctrl+V`);return;}
+  try{await navigator.clipboard.writeText(name);toast(`Copied '${name}' — switch to FM27 and press Ctrl+F, Ctrl+V`);}
+  catch(e){toast(`Couldn't copy the name. Search FM27 for '${name}'`,true);}}
 
-// Moneyball: players outside your club whose market value is half their fair value or less
-function renderMB(){if(!P.length)return;
-  if(!$("mbf").children.length)recFilters("mbf",`<label class="mut">Min performance <input type="number" data-r="perf" min="0" max="99" value="60" aria-label="Minimum performance score"></label><label class="mut">Min fair value £M <input type="number" data-r="fv" min="0" step="any" value="0.25" aria-label="Minimum fair value in millions of pounds"></label><label class="mut">Min contract left (months) <input type="number" data-r="ml" min="0" placeholder="any" aria-label="Minimum months of contract left"></label>`);
-  const f=readRF("mbf"),g=$("mbg").value,minP=nv(f.perf)??0,minF=(nv(f.fv)??0)*1e6,rows=[];
-  P.forEach(p=>{if(p.r.Mins<MINREC||!p.ok||inClub(p)||!hasVal(p)||!senior(p))return;const pg=grpOf(p);if(!pg||(g&&pg!==g)||!rfMatch(p,f))return;
-    const pf=perfFor(p,pg);if(isNaN(pf)||pf<minP)return;const fv=fairValue(p);if(!isFinite(fv)||fv<minF)return;const x=fv/p.vlo;if(x>=2)rows.push({p,pg,pf,fv,x});});
-  rows.sort((a,b)=>b.x-a.x);
-  $("mbth").innerHTML="<tr><th>Name</th><th class='st'>☆</th><th>Position</th><th class='n'>Age</th><th>Club</th><th>League</th><th class='n'>Performance</th><th class='n' title='Performance percentile minus ability percentile: above 0, output beats what their attributes suggest'>Stats vs ability</th><th class='n'>Av Rat</th><th class='n'>Value</th><th class='n'>Fair value</th><th class='n'>Undervalued</th><th class='n'>Wage £/wk</th><th class='n'>Contract left</th><th>Best stats (percentile)</th></tr>";
-  $("mbtb").innerHTML=rows.slice(0,200).map(({p,pg,pf,fv,x})=>`<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}${cell(p,"pos")}${cell(p,"age")}${cell(p,"club")}<td>${esc(p.r.Division||"–")}</td><td class="n">${pf}</td><td class="n">${(d=>isNaN(d)?"–":(d>0?"+":"")+d)(pf-abilPct(p))}</td>${cell(p,"rat")}<td class="n">${money(p.vlo)}</td><td class="n">${money(fv)}</td><td class="n val">×${x.toFixed(1)}</td>${cell(p,"wage")}<td class="n">${mlText(monthsLeft(p))}</td><td class="mut">${esc(strengths(p,pg))}</td></tr>`).join("")
-    ||`<tr><td colspan="15" class="mut" style="padding:18px">No undervalued players match these filters.</td></tr>`;
-  $("mbcnt").textContent=`${rows.length.toLocaleString()} players`+(rows.length>200?", best 200 shown":"");
-  $("mbnote").textContent=`Senior-team players outside your club with ${MINREC}+ minutes whose market value is half their fair value or less, most undervalued first. Fair value is this tool's estimate of what this save's market pays for a player's output: a fit of market value against performance, age and the league's typical value, made for each position group. Performance is the average of the position group's key stat percentiles (the profile chart's stats), ranked within the group, so 50 is the median. It uses the percentile pool and "Percentiles against" from Player search (now ${refName()}). Value is the game's stored value, not your scouts' range; it drops sharply as a contract runs out, so players with a few months left can top the list and may be available cheaply or on a free. Fair value uses stats only. Stats vs ability is the performance percentile minus the ability percentile (weighted attributes) within the position group: well above 0, the output beats what the attributes suggest, which can mean a bargain or a hot streak; well below 0, the attributes promise more than the output.`;}
+// Tactical roles: which positions can play them, and how much each stat percentile counts towards role performance
+const ROLES=[
+ {id:"bpcb",l:"Ball-Playing CB",pos:["D(C)"],w:{"PrPass/90":3,"PsC/90":2,"Pas%":2,"Int/90":2,"TckWon/90":1,"HdrWon/90":1,"Hdr%":1,"Clr/90":1}},
+ {id:"scb",l:"Stopper CB",pos:["D(C)"],w:{"TckWon/90":3,"Tck%":2,"HdrWon/90":2,"Hdr%":2,"KTck/90":1,"Blk/90":1,"Clr/90":1,"Int/90":1,"PossWon/90":1}},
+ {id:"awb",l:"Attacking WB/FB",pos:["D(L)","D(R)","WB(L)","WB(R)"],w:{"xA/90":2,"KP/90":2,"OP-CrC/90":2,"Drb/90":2,"PrPass/90":2,"Cr%":1,"Sprints/90":1,"Dist/90":1}},
+ {id:"dfb",l:"Defensive FB",pos:["D(L)","D(R)","WB(L)","WB(R)"],w:{"TckWon/90":3,"Tck%":2,"Int/90":2,"PresC/90":1,"PossWon/90":1,"HdrWon/90":1,"Blk/90":1,"Pas%":1}},
+ {id:"bwm",l:"Ball-Winning DM",pos:["DM","M(C)"],w:{"TckWon/90":3,"PossWon/90":3,"PresC/90":2,"Int/90":2,"KTck/90":1,"Tck%":1,"Dist/90":1}},
+ {id:"dlp",l:"Deep-Lying Playmaker",pos:["DM","M(C)"],w:{"PrPass/90":3,"PsC/90":3,"Pas%":2,"KP/90":1,"xA/90":1,"Int/90":1,"PossLost/90":1}},
+ {id:"b2b",l:"Box-to-Box CM",pos:["M(C)"],w:{"Dist/90":2,"PossWon/90":2,"PrPass/90":2,"Sprints/90":1,"npxG/90":1,"xA/90":1,"TckWon/90":1,"Drb/90":1,"PresC/90":1}},
+ {id:"ap",l:"Attacking Playmaker",pos:["AM(C)","M(C)"],w:{"xA/90":3,"KP/90":3,"CCC/90":2,"OP-KP/90":2,"PrPass/90":1,"Drb/90":1,"npxG/90":1}},
+ {id:"if",l:"Inside Forward/Winger",pos:["AM(L)","AM(R)","M(L)","M(R)"],w:{"Drb/90":3,"npxG/90":2,"npG/90":2,"xA/90":2,"KP/90":1,"Shots/90":1,"OP-CrC/90":1}},
+ {id:"pf",l:"Pressing Forward",pos:["ST(C)"],w:{"PresC/90":3,"PresA/90":2,"PossWon/90":2,"npxG/90":2,"Dist/90":1,"xA/90":1,"TckWon/90":1}},
+ {id:"poa",l:"Poacher/Striker",pos:["ST(C)"],w:{"npG/90":3,"npxG/90":3,"SoT/90":2,"xG/Shot":2,"SoT%":1,"npG/Shot":1}},
+ {id:"tfw",l:"Target Forward",pos:["ST(C)"],w:{"HdrWon/90":3,"Hdr%":2,"KHdr/90":2,"npxG/90":2,"FoulsWon/90":1,"xA/90":1}},
+ {id:"swk",l:"Sweeper Keeper",pos:["GK"],w:{"xGP/90":3,"Sv%":2,"xSv%":2,"PsC/90":2,"Pas%":2,"CS/90":1}}];
+$("mbrole").innerHTML=`<option value="">All roles</option>`+ROLES.map(r=>`<option value="${r.id}">${esc(r.l)}</option>`).join("");
+const canRole=(p,ro)=>ro.pos.some(k=>p.pset.has(k));
+// weighted average of the role's stat percentiles; under 60% of its stats known: no score
+function roleRaw(p,ro){let t=0,s=0,n=0,all=0;for(const k in ro.w){all++;const v=(p.pct||{})[k];if(!isNaN(v)){t+=v*ro.w[k];s+=ro.w[k];n++;}}return n>=all*.6&&s?t/s:NaN;}
+// ranked among the pool's players who can play the role, so 50 is the role's median (cleared by compute())
+let RP={};
+function rolePerf(p,ro){const d=RP[ro.id]??=P.filter(q=>q.ok&&canRole(q,ro)).map(q=>roleRaw(q,ro)).filter(x=>!isNaN(x)).sort((a,b)=>a-b);
+  const r=roleRaw(p,ro);return isNaN(r)||!d.length?NaN:Math.floor((lower(d,r)+1)/(d.length+1)*100+1e-9);}
+const roleStrengths=(p,ro,n=3)=>Object.keys(ro.w).map(k=>[k,(p.pct||{})[k]]).filter(x=>!isNaN(x[1])).sort((a,b)=>b[1]-a[1]).slice(0,n).map(([k,v])=>`${STATS[k].label} ${v}`).join(", ");
+
+// League strength: the median reputation of a league's clubs (senior teams, one value per club), against the median league.
+// The factor scales performance, from x0.55 in the weakest leagues to x1.25 in the strongest.
+let LGS=null;
+function lgStrength(){if(LGS&&LGS.P===P)return LGS;const by={};
+  P.forEach(p=>{const d=p.r.Division,c=cidOf(p),r=p.r["Club Rep"];if(!d||c==null||!(r>0)||p.r["Loaned From"]||!senior(p))return;(by[d]??={})[c]=r;});
+  const m={};for(const d in by){const v=Object.values(by[d]);if(v.length>=4)m[d]=med(v);}
+  const vals=Object.values(m);return LGS={P,m,ref:vals.length?med(vals):NaN};}
+function lgFactor(p){const L=lgStrength(),r=L.m[p.r.Division];if(!(r>0)||!(L.ref>0))return 1;return Math.max(.55,Math.min(1.25,Math.sqrt(r/L.ref)));}
+
+// Release clause (minimum fee) read from the contract; NaN when there is none
+const rcOf=p=>{const v=p.r["Release Clause"];return isFinite(v)&&v>0?v:NaN;};
+
+// Snapshots: per club, the performance, value and rating of every pool player plus your squad and shortlist,
+// so later loads can show what changed. Kept compact in localStorage; the four most recent clubs are kept.
+const SNAPK="fm_snap_v1";let SNAPS={},SNAPC=null;
+try{SNAPS=JSON.parse(localStorage.getItem(SNAPK)||"{}")||{};}catch(e){SNAPS={};}
+const snapKey=()=>MY==null?"_":String(MY);
+function snapFor(){const s=SNAPS[snapKey()];if(!s||!Array.isArray(s.ids))return null;if(SNAPC&&SNAPC.s===s)return SNAPC;
+  const m=new Map();s.ids.forEach((id,i)=>m.set(id,[s.pf[i],s.v[i],s.r[i]]));return SNAPC={s,m};}
+function snapBuild(keep){const ids=[],pf=[],v=[],r=[];
+  P.forEach(p=>{if(!isNum(p.r.UID)||!keep(p))return;const f=perf(p),rt=p.r["Av Rat"];ids.push(p.r.UID);pf.push(isNaN(f)?-1:f);v.push(hasVal(p)?Math.round(p.vlo/1e3):-1);r.push(isFinite(rt)?Math.round(rt*100):-1);});
+  const ctx=myClubCtx();return {d:GDATE,t:Date.now(),club:ctx?.name||"",ids,pf,v,r};}
+function saveSnapshot(){if(!P.length)return;const k=snapKey(),old=SNAPS[k];
+  const tries=[p=>p.ok||inClub(p)||inSL(p),p=>inClub(p)||inSL(p)||(p.ok&&p.r.Mins>=MINREC)];
+  for(const keep of tries){SNAPS[k]=snapBuild(keep);
+    const ks=Object.keys(SNAPS).sort((a,b)=>SNAPS[b].t-SNAPS[a].t);ks.slice(4).forEach(x=>delete SNAPS[x]);
+    try{localStorage.setItem(SNAPK,JSON.stringify(SNAPS));SNAPC=null;snapBtn();redrawLists();
+      toast(`Snapshot saved${SNAPS[k].club?" for "+SNAPS[k].club:""}: ${SNAPS[k].ids.length.toLocaleString()} players at ${GDATE?fmtDate(GDATE):"this load"}. Changes show in Squad, Shortlist and Moneyball.`);return;}catch(e){}}
+  if(old)SNAPS[k]=old;else delete SNAPS[k];toast("Couldn't save the snapshot: the browser's storage is full.",true);}
+function snapBtn(){const s=SNAPS[snapKey()];$("snap").textContent=s?"Update snapshot":"Save snapshot";
+  $("snap").title=s?`Snapshot from ${s.d?fmtDate(s.d):"an earlier load"} (${s.ids.length.toLocaleString()} players). Click to replace it with this load.`:"Save this load's performance and values for your club, to show changes next time";}
+// change since the snapshot: performance points and value in pounds (NaN when either side is unknown)
+function trendOf(p){const S=snapFor();if(!S||!isNum(p.r.UID))return null;const o=S.m.get(p.r.UID);if(!o)return null;
+  const f=perf(p);return {dpf:o[0]>=0&&!isNaN(f)?f-o[0]:NaN,dv:o[1]>=0&&hasVal(p)?p.vlo-o[1]*1e3:NaN};}
+const moneyD=d=>(d>0?"+":"−")+money(Math.abs(d));
+const dltHtml=(d,fmt=x=>(x>0?"+":"−")+Math.abs(x))=>isNaN(d)?"":`<small class="dlt ${d>0?"up":d<0?"dn":"eq"}" title="Change since your snapshot">${d===0?"=":fmt(d)}</small>`;
+const dvRound=d=>isNaN(d)?d:Math.abs(d)<500?0:d;
+function trendCell(p){const t=trendOf(p);if(!t||(isNaN(t.dpf)&&isNaN(t.dv)))return `<td class="n mut">–</td>`;
+  return `<td class="n">${isNaN(t.dpf)?"":`Perf ${dltHtml(t.dpf)}`}${!isNaN(t.dpf)&&!isNaN(t.dv)?" · ":""}${isNaN(t.dv)?"":`Value ${dltHtml(dvRound(t.dv),moneyD)}`}</td>`;}
+
+// My Club -> Squad summary: age curve, local and foreign players (against the club's country), contracts ending soon
+function squadSummary(ps){const ctx=myClubCtx(),el=$("qsum");if(!ctx||!ps.length){el.hidden=true;return;}
+  const ages=ps.map(p=>p.r.Age).filter(a=>a>0),dev=ages.filter(a=>a<=22).length,peak=ages.filter(a=>a>=23&&a<=28).length,exp=ages.filter(a=>a>=29).length;
+  const avg=ages.length?(ages.reduce((a,b)=>a+b,0)/ages.length).toFixed(1):"–";
+  const loc=ctx.nat?ps.filter(p=>p.r.Nat===ctx.nat).length:NaN,forn=ctx.nat?ps.filter(p=>p.r.Nat&&p.r.Nat!==ctx.nat).length:NaN;
+  const own=ps.filter(p=>!(cidOf(p)===MY&&p.r["Loaned From"])),soon=own.filter(p=>{const ml=monthsLeft(p);return !isNaN(ml)&&ml<=12;}),ended=soon.filter(p=>monthsLeft(p)<=0).length;
+  const top=Math.max(dev,peak,exp),seg=(n,l)=>`<span class="${n===top&&n?"hl":""}">${l}: <b>${n}</b></span>`;
+  el.innerHTML=`<span class="seg"><b class="h">Age curve</b>${seg(dev,"Developing ≤22")}${seg(peak,"Peak 23–28")}${seg(exp,"Experienced 29+")}<span>Avg <b>${avg}</b></span></span>`
+   +(ctx.nat?`<span class="seg"><b class="h">Nationality</b><span>Local (${esc(ctx.nat)}): <b>${loc}</b></span><span class="${forn?"hl":""}">Foreign: <b>${forn}</b></span></span>`:"")
+   +`<span class="seg"><b class="h">Contracts</b><span class="${soon.length?"wr":""}" title="${esc(soon.map(p=>p.r.Name).slice(0,12).join(", "))}">Expiring ≤12 mo: <b>${soon.length}</b>${ended?` (${ended} ended)`:""}</span></span>`;
+  el.hidden=false;}
+
+// Sell/Keep -> Moneyball: cheaper players for the same positions who would realistically join
+let mbRepl=null;
+function findReplacement(p){if(!p||!P.length)return;mbBuild();
+  const v=hasVal(p)?p.vlo:NaN,w=isFinite(p.r.Wage)&&p.r.Wage>0?p.r.Wage:NaN,pf=perf(p);
+  applyMBFields({...MB_PRESETS[0].set,jc:MY!=null?"md":"",amin:"",amax:"",val:isFinite(v)?String(Math.floor(v/1e4)/100):"",wage:isFinite(w)?String(Math.floor(w/100)/10):"",
+    mins:"450",perf:isNaN(pf)?"0":String(Math.max(0,pf-10)),fv:"0",mult:"0",ml:"",mlmax:"",free:true,freeOnly:false,over:false,noloan:true,rc:"",lg:"",nat:"",foot:""});
+  mbPos=new Set([...p.pset].filter(k=>POSK.includes(k)));$("mbg").value="";$("mbrole").value="";
+  mbRepl={i:p.i,id:pid(p)};mbPreset="custom";mbSort={k:"mb",d:-1};tab("mb");}
+
+const MB_PRESETS=[
+  {id:"realistic",l:"Realistic Bargains",tip:"Likely/Possible join, undervalued ≥1.8×, solid performance",set:{jc:"md",amin:"",amax:"31",lg:"",nat:"",val:"",wage:"",foot:"",noloan:false,mins:"600",perf:"60",fv:"0.05",mult:"1.8",ml:"",mlmax:"",free:true,freeOnly:false,over:false,sort:"mb"}},
+  {id:"bosman",l:"Bosman / Expiring",tip:"Contracts expiring within 12 months",set:{jc:"md",amin:"",amax:"32",lg:"",nat:"",val:"",wage:"",foot:"",noloan:true,mins:"450",perf:"55",fv:"0",mult:"1.0",ml:"",mlmax:"12",free:true,freeOnly:false,over:false,sort:"mb"}},
+  {id:"free",l:"Free Agents",tip:"Unattached or expired-contract players ready to sign for free",set:{jc:"md",amin:"",amax:"33",lg:"",nat:"",val:"",wage:"",foot:"",noloan:true,mins:"0",perf:"0",fv:"0",mult:"0",ml:"",mlmax:"0",free:true,freeOnly:true,over:false,sort:"mb"}},
+  {id:"wonder",l:"U23 Wonderkids",tip:"23 and under with strong ability & development upside",set:{jc:"md",amin:"",amax:"23",lg:"",nat:"",val:"",wage:"",foot:"",noloan:false,mins:"300",perf:"50",fv:"0",mult:"1.0",ml:"",mlmax:"",free:true,freeOnly:false,over:false,sort:"mb"}},
+  {id:"over",l:"Overperformers",tip:"Statistical output running +15+ above attribute ability",set:{jc:"md",amin:"",amax:"30",lg:"",nat:"",val:"",wage:"",foot:"",noloan:false,mins:"900",perf:"70",fv:"0.05",mult:"1.5",ml:"",mlmax:"",free:false,freeOnly:false,over:true,sort:"sva"}},
+  {id:"abil",l:"High Ability Bargains",tip:"Strong underlying ability at a discount",set:{jc:"md",amin:"",amax:"30",lg:"",nat:"",val:"",wage:"",foot:"",noloan:false,mins:"300",perf:"40",fv:"0",mult:"1.3",ml:"",mlmax:"",free:true,freeOnly:false,over:false,sort:"abil"}},
+  {id:"rcb",l:"Release Clause Bargains",tip:"Players whose contract release clause is at or below their fair value: pay the clause and the club cannot refuse",set:{jc:"md",amin:"",amax:"31",lg:"",nat:"",val:"",wage:"",foot:"",noloan:true,mins:"450",perf:"50",fv:"0",mult:"0",ml:"",mlmax:"",free:false,freeOnly:false,over:false,rc:"fair",sort:"mb"}},
+];
+MB_PRESETS.forEach(pr=>{if(!("rc" in pr.set))pr.set.rc="";});
+let mbPreset="realistic",mbPos=new Set(),mbSort={k:"mb",d:-1},mbRestored=false;
+function mbSave(){try{localStorage.setItem("fm_mb_v1",JSON.stringify({preset:mbPreset,g:$("mbg").value,q:$("mbq").value,pos:[...mbPos],sort:mbSort,role:$("mbrole").value,adj:$("mbadj").checked,f:readRF("mbf")}));}catch(e){}}
+function mbLoadSaved(){if(mbRestored)return false;mbRestored=true;try{const s=JSON.parse(localStorage.getItem("fm_mb_v1")||"null");if(!s||!s.f)return false;
+  mbPreset=s.preset||"custom";$("mbg").value=s.g||"";$("mbq").value=s.q||"";mbPos=new Set(s.pos||[]);if(s.sort)mbSort=s.sort;$("mbrole").value=ROLES.some(x=>x.id===s.role)?s.role:"";$("mbadj").checked=!!s.adj;
+  applyMBFields(s.f);return true;}catch(e){return false;}}
+function applyMBFields(o){$("mbf").querySelectorAll("[data-r]").forEach(e=>{const k=e.dataset.r;if(!(k in o))return;if(e.type==="checkbox")e.checked=!!o[k];else e.value=o[k]??"";});}
+function setMBPreset(id){const pr=MB_PRESETS.find(x=>x.id===id);if(!pr)return;mbPreset=id;mbRepl=null;const def={...pr.set};if(MY==null)def.jc="";applyMBFields(def);mbSort={k:pr.set.sort||"mb",d:-1};mbSave();renderMB();}
+function mbScore(p,pg,pf,fv,jc){
+  const ab=abilPct(p),va=vsAge(p),ml=monthsLeft(p),isFree=!p.r.Club||(!isNaN(ml)&&ml<=0);
+  const perfPart=!isNaN(pf)?pf:(!isNaN(ab)?ab:50);
+  let valPart=50;
+  if(isFree)valPart=95;
+  else if(hasVal(p)&&isFinite(fv)&&fv>0)valPart=Math.min(100,Math.max(0,Math.log2(Math.max(1,fv/p.vlo))*42));
+  if(!isFree&&!isNaN(ml)&&ml<=6)valPart=Math.max(valPart,84);
+  let abilPart=!isNaN(ab)?ab:50;
+  if(p.r.Age<=23&&!isNaN(va))abilPart=Math.min(100,abilPart*0.65+Math.min(115,va)*0.35);
+  const joinPart=jc.tier==="hi"?100:jc.tier==="md"?62:18;
+  const q=isFinite(p.r._qual)?p.r._qual:50,up=isFinite(p.r._upside)?p.r._upside:50;
+  const qualPart=p.r.Age<=23?(q*0.45+up*0.55):(q*0.8+up*0.2);
+  return Math.max(0,Math.min(99,Math.round(perfPart*0.32+valPart*0.26+abilPart*0.20+joinPart*0.12+qualPart*0.10)));
+}
+const mbsHtml=v=>`<span class="mbs ${v>=78?"hi":v>=62?"md":"lo"}">${v}</span>`;
+
+function mbBuild(){
+  if(!$("mbf").children.length){
+    recFilters("mbf",
+      `<label class="mut">Min mins <input type="number" data-r="mins" min="0" step="90" value="600" aria-label="Minimum minutes"></label>`
+      +`<label class="mut">Min perf <input type="number" data-r="perf" min="0" max="99" value="60" aria-label="Minimum performance"></label>`
+      +`<label class="mut">Min fair val £M <input type="number" data-r="fv" min="0" step="any" value="0.05" aria-label="Minimum fair value"></label>`
+      +`<label class="mut">Min value × <input type="number" data-r="mult" min="0" step="0.1" value="1.8" aria-label="Minimum undervalued multiplier"></label>`
+      +`<label class="mut">Contract (mo) <input type="number" data-r="ml" min="0" placeholder="min" aria-label="Min contract months"> – <input type="number" data-r="mlmax" min="0" placeholder="max" aria-label="Max contract months"></label>`
+      +`<label class="mut" style="cursor:pointer"><input type="checkbox" data-r="free" checked> Include free agents</label>`
+      +`<label class="mut" style="cursor:pointer"><input type="checkbox" data-r="freeOnly"> Free agents only</label>`
+      +`<label class="mut" style="cursor:pointer"><input type="checkbox" data-r="over"> Overperformers (+15)</label>`
+      +`<label class="mut" title="Release clauses read from the players&#39; contracts (minimum fee clauses only)">Release clause <select data-r="rc" style="width:auto" aria-label="Release clause"><option value="">Any</option><option value="has">Has a clause</option><option value="fair">Clause ≤ fair value</option></select></label>`);
+    if(!mbLoadSaved()){
+      const def={...MB_PRESETS[0].set};if(MY==null)def.jc="";
+      applyMBFields(def);
+    }
+  }
+}
+function renderMB(){if(!P.length)return;mbBuild();
+  const ro=ROLES.find(x=>x.id===$("mbrole").value)||null,adj=$("mbadj").checked;
+  let seller=mbRepl?P[mbRepl.i]:null;if(seller&&pid(seller)!==mbRepl.id){seller=null;mbRepl=null;}
+  const sv0=seller&&hasVal(seller)?seller.vlo:NaN,sw0=seller&&isFinite(seller.r.Wage)?seller.r.Wage:NaN;
+  $("mbrepl").hidden=!seller;
+  if(seller)$("mbrepl").innerHTML=`<span>Replacing <b>${esc(seller.r.Name)}</b> <small class="mut">${esc(seller.r.Position)} · ${isFinite(sv0)?money(sv0):"no value"} · ${isFinite(sw0)?"£"+sw0.toLocaleString()+"/wk":"wage unknown"}</small></span><span class="mut">Same positions, Likely or Possible to join, value and wage no higher. Net profit = their value − the replacement&#39;s value.</span><span style="flex:1"></span><button class="btn ghost" id="mbreplx">Clear</button>`;
+  $("mbpre").innerHTML=`<span class="mut" style="font-size:12px;margin-right:2px">Presets:</span>`+MB_PRESETS.map(pr=>`<button class="chip" data-pre="${pr.id}" aria-pressed="${mbPreset===pr.id}" title="${esc(pr.tip)}">${esc(pr.l)}</button>`).join("");
+  $("mbpos").innerHTML=`<span class="mut" style="font-size:12px;margin-right:2px">Positions:</span><button class="chip" data-mpos="" aria-pressed="${!mbPos.size}">Any</button>`+POSK.map(k=>`<button class="chip" data-mpos="${k}" aria-pressed="${mbPos.has(k)}">${posLbl(k)}</button>`).join("");
+  const f=readRF("mbf"),g=$("mbg").value,q=norm($("mbq").value).trim();
+  const minMins=nv(f.mins)??0,minP=nv(f.perf)??0,minF=(nv(f.fv)??0)*1e6,minMult=nv(f.mult)??0;
+  const rows=[];
+  P.forEach(p=>{
+    if(inClub(p))return;
+    const ml=monthsLeft(p),isFree=!p.r.Club||(!isNaN(ml)&&ml<=0);
+    if(f.freeOnly&&!isFree)return;
+    if(!isFree&&!senior(p)&&minMins>=600)return;
+    if(isFree&&!f.free&&!f.freeOnly)return;
+    if(!isFree&&!hasVal(p)&&!f.free)return;
+    if((p.r.Mins||0)<minMins)return;
+    const pg=grpOf(p);if(!pg||(g&&pg!==g))return;
+    if(mbPos.size&&!inPos(p,mbPos))return;
+    if(q&&!p.key.includes(q))return;
+    if(!rfMatch(p,f))return;
+    if(ro&&!canRole(p,ro))return;
+    let pf=ro?rolePerf(p,ro):perfFor(p,pg);const lf=adj?lgFactor(p):1;
+    if(adj&&!isNaN(pf))pf=Math.min(99,Math.round(pf*lf));
+    if(minP>0&&(isNaN(pf)||pf<minP))return;
+    const fv=fairValue(p),x=(!isFree&&hasVal(p)&&isFinite(fv))?fv/p.vlo:NaN,rc=rcOf(p);
+    if(f.rc==="has"&&isNaN(rc))return;
+    if(f.rc==="fair"&&!(rc>0&&isFinite(fv)&&rc<=fv))return;
+    if(!isFree){
+      if(minF>0&&(!isFinite(fv)||fv<minF))return;
+      if(minMult>0&&(!isFinite(x)||x<minMult))return;
+    }
+    const sva=!isNaN(pf)?pf-abilPct(p):NaN;
+    if(f.over&&!(sva>=15))return;
+    const jc=joinChance(p),ab=bestAbil(p),va=vsAge(p),mb=mbScore(p,pg,pf,fv,jc);
+    const cost=isFree?0:hasVal(p)?p.vlo:NaN,np=seller&&isFinite(sv0)&&isFinite(cost)?sv0-cost:NaN,ws=seller&&isFinite(sw0)&&isFinite(p.r.Wage)?sw0-p.r.Wage:NaN;
+    rows.push({p,pg,pf,fv,x,jc,ab,va,sva,mb,ml,isFree,rc,lf,np,ws});
+  });
+  const mKey={name:r=>r.p.r.Name,mb:r=>r.mb,jc:r=>r.jc.score,pos:r=>r.p.r.Position,age:r=>r.p.r.Age,nat:r=>r.p.r.Nat||"",club:r=>r.p.r.Club||"Free Agent",lg:r=>r.p.r.Division||"",pf:r=>r.pf,abil:r=>r.ab,va:r=>r.va,sva:r=>r.sva,rat:r=>r.p.r["Av Rat"],val:r=>r.isFree?0:r.p.vlo,fv:r=>r.fv,x:r=>r.isFree?999:r.x,wage:r=>r.p.r.Wage||0,ml:r=>r.isFree?-1:r.ml,rc:r=>r.rc,np:r=>r.np,ws:r=>r.ws};
+  const sk=mKey[mbSort.k]?mbSort.k:"mb",sd=mbSort.d;
+  rows.sort((a,b)=>{const x=mKey[sk](a),y=mKey[sk](b);const nx=typeof x==="number"&&isNaN(x),ny=typeof y==="number"&&isNaN(y);if(nx||ny)return nx-ny||b.mb-a.mb;
+    return (x>y?1:x<y?-1:0)*sd||b.mb-a.mb;});
+  const ctx=myClubCtx(),likelyN=rows.filter(r=>r.jc.tier==="hi").length,avgMb=rows.length?Math.round(rows.reduce((s,r)=>s+r.mb,0)/rows.length):0;
+  const bestX=rows.reduce((m,r)=>isFinite(r.x)&&r.x>m?r.x:m,0);
+  $("mbkpi").innerHTML=`<div><span>Matches</span><b>${rows.length.toLocaleString()}</b><small>${rows.filter(r=>r.isFree).length} free agents</small></div>`
+   +`<div><span>Likely to join</span><b style="color:var(--acc)">${likelyN.toLocaleString()}</b><small>${rows.filter(r=>r.jc.tier==="md").length.toLocaleString()} possible</small></div>`
+   +`<div><span>Avg MB Score</span><b>${rows.length?avgMb:"–"}</b><small>0–99 composite</small></div>`
+   +`<div><span>Top Undervalued</span><b class="val">${bestX?`×${bestX.toFixed(1)}`:"–"}</b><small>Fair value / Value</small></div>`
+   +(ctx?`<div><span>${esc(ctx.name)}</span><b>Rep ${ctx.rep.toLocaleString()}</b><small>Max £${Math.round(ctx.maxWage).toLocaleString()}/wk · ${esc(ctx.nat||"?")}</small></div>`
+       :`<div><span>Club Benchmark</span><b>No club set</b><small>Pick your club in My Club → Squad</small></div>`);
+  const activeF=[f.jc&&(f.jc==="hi"?"Likely":"Likely+Possible"),mbPos.size&&`${mbPos.size} pos`,f.lg&&"League",f.nat&&"Nation",f.val&&`≤£${f.val}M`,f.wage&&`≤£${f.wage}k`,f.mlmax&&`≤${f.mlmax} mo`,f.noloan&&"No loans",f.freeOnly&&"Free only",ro&&ro.l,adj&&"League-adjusted",f.rc&&(f.rc==="fair"?"Clause ≤ fair value":"Has clause")].filter(Boolean);
+  $("mbfsum").textContent=activeF.length?"· "+activeF.join(" · "):"";
+  const cols=[["name","Name"],["star","☆","st"],["cmp","⇄","st"],["fm","FM","st"],["mb","MB","n"],["jc","Join"],["pos","Pos"],["age","Age","n"],["nat","Nat"],["club","Club"],["lg","League"],["pf",ro?`${esc(ro.l)} perf`:adj?"Perf (adj)":"Perf","n"],["abil","Abil","n"],["va","vs Age","n"],["sva","Stats vs Abil","n"],["rat","Av Rat","n"],["val","Value","n"],["fv","Fair val","n"],["x","Underval","n"],["rc","Clause","n"],["wage","Wage £/wk","n"],...(seller?[["np","Net profit","n"],["ws","Wage saving","n"]]:[]),["ml","Contract","n"],["best","Best stats (pct)"]];
+  const showT=!ro&&!adj&&snapFor();
+  $("mbth").innerHTML="<tr>"+cols.map(([k,l,c])=>`<th ${k in mKey?`data-mk="${k}"`:""} class="${c||""} ${k===sk?"on":""}">${l}${k===sk?(sd<0?" ↓":" ↑"):""}</th>`).join("")+"</tr>";
+  $("mbtb").innerHTML=rows.slice(0,250).map(({p,pg,pf,fv,x,jc,ab,va,sva,mb,ml,isFree,rc,lf,np,ws})=>{const t=showT?trendOf(p):null;return `<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}<td class="st"><button class="qcmp" data-cmp="${p.i}" title="Compare with your starter" aria-label="Compare ${esc(p.r.Name)}">⇄</button></td><td class="st"><button class="qcmp qfm" data-fm="${p.i}" title="Copy the name and switch to FM27" aria-label="Open ${esc(p.r.Name)} in FM27">FM</button></td><td class="n">${mbsHtml(mb)}</td><td>${jcHtml(jc)}</td>${cell(p,"pos")}${cell(p,"age")}<td>${esc(p.r.Nat||"–")}</td><td>${isFree?'<span class="vd good">Free Agent</span>':`${esc(p.r.Club)}${p.r["Loaned From"]?` <small class="mut">loan</small>`:""}`}</td><td${adj?` title="League strength ×${lf.toFixed(2)}"`:""}>${esc(p.r.Division||"–")}</td><td class="n">${isNaN(pf)?"–":pf}${t?dltHtml(t.dpf):""}</td><td class="n">${f1(ab)}</td><td class="n${va>=100?" val":""}">${isNaN(va)?"–":va+"%"}</td><td class="n">${isNaN(sva)?"–":(sva>0?"+":"")+sva}</td>${cell(p,"rat")}<td class="n">${isFree?"Free":money(p.vlo)}${t?dltHtml(dvRound(t.dv),moneyD):""}</td><td class="n">${money(fv)}</td><td class="n val">${isFree?"Free":isFinite(x)?`×${x.toFixed(1)}`:"–"}</td><td class="n${rc>0&&isFinite(fv)&&rc<=fv?" val":""}">${isNaN(rc)?"–":money(rc)}</td>${cell(p,"wage")}${seller?`<td class="n${np>0?" val":""}">${isNaN(np)?"–":moneyD(np)}</td><td class="n${ws>0?" val":""}">${isNaN(ws)?"–":(ws>=0?"+":"−")+"£"+Math.abs(ws).toLocaleString()}</td>`:""}<td class="n">${mlText(ml,isFree)}</td><td class="mut">${esc(ro?roleStrengths(p,ro):strengths(p,pg))}</td></tr>`;}).join("")
+    ||`<tr><td colspan="${cols.length}" class="mut" style="padding:18px">No players match these filters. Try switching preset or relaxing Join / Performance / Value filters.</td></tr>`;
+  $("mbcnt").textContent=`${rows.length.toLocaleString()} players`+(rows.length>250?", top 250 shown":"");
+  $("mbnote").textContent=`MB Score (0–99) combines on-pitch Performance, Fair Value discount, weighted Ability/vs Age, strict Join Chance (calibrated from FM27 Player & Club Reputation, wage ceiling, contract recency, and loyalty/ambition), and silent underlying consistency/durability/upside. Hover any Join badge to see why. Click any column header to sort, or ⇄ to compare directly against your starter.`;
+}
 
 // Tactical fit: your player in each slot of a formation, and who elsewhere would be an upgrade, a like-for-like replacement
 // or a downgrade there. Level compares performance for the slot's position group; style match compares the same stats one by one.
@@ -1449,26 +1820,31 @@ function tfXI(){const st=tfState(),slots=FORMS[st.f]||FORMS["4-3-3"],pool=myPool
 function styleMatch(a,b,g){const ks=PKEYS[g]||[];let d=0,n=0;ks.forEach(k=>{const x=(a.pct||{})[k],y=(b.pct||{})[k];if(!isNaN(x)&&!isNaN(y)){d+=Math.abs(x-y);n++;}});return n&&n>=ks.length*.6?Math.round(100-d/n):NaN;}
 function renderTF(){if(!P.length)return;
   if(!$("tfform").options.length)$("tfform").innerHTML=Object.keys(FORMS).map(f=>`<option>${f}</option>`).join("");
-  if(MY==null){$("tfp").innerHTML="<p class='mut'>Choose your club in Squad first.</p>";$("tfth").innerHTML=$("tftb").innerHTML="";$("tfcnt").textContent="";return;}
+  if(MY==null){$("tfgap").hidden=true;$("tfp").innerHTML="<p class='mut'>Choose your club in Squad first.</p>";$("tfth").innerHTML=$("tftb").innerHTML="";$("tfcnt").textContent="";return;}
   if(!$("tff").children.length){recFilters("tff",`<label class="mut">Min style match % <input type="number" data-r="style" min="0" max="100" value="60" aria-label="Minimum style match"></label>`);
-    // weaker leagues inflate percentiles, so by default only compare with leagues at least as strong as yours
-    const s=$("tff").querySelector("[data-r=lg]");if([...s.options].some(o=>o.value==="ge"))s.value="ge";}
+    const jc=$("tff").querySelector("[data-r=jc]");if(jc)jc.value="md";}
   const st=tfState();$("tfform").value=st.f;const {slots,xi}=tfXI(),pool=myPool().sort((a,b)=>a.r.Name.localeCompare(b.r.Name));
   if(tfSel>=slots.length)tfSel=0;
+  const ctx=myClubCtx();
+  const gaps=slots.map((pos,i)=>{const p=xi[i],pf=p?perfFor(p,slotG(pos)):NaN,ab=p?abilityAt(p,pos):NaN;const sc=p?(isNaN(pf)?(isNaN(ab)?0:ab*5):pf*0.6+(isNaN(ab)?pf:ab*5)*0.4):-1;return {i,pos,p,pf,ab,sc};}).sort((a,b)=>a.sc-b.sc).slice(0,3);
+  $("tfgap").hidden=false;
+  $("tfgap").innerHTML=`<b>Priority gaps</b>`+gaps.map(g=>`<button class="chip" data-gap="${g.i}" aria-pressed="${g.i===tfSel}">${posLbl(g.pos)}: ${g.p?`${esc(g.p.r.Name)} (${isNaN(g.pf)?"–":g.pf} perf · ${f1(g.ab)} abil)`:"Empty"}</button>`).join("")
+   +(ctx?`<span style="flex:1"></span><span class="mut">Benchmark: <b>Rep ${ctx.rep.toLocaleString()}</b> · Max wage <b>£${Math.round(ctx.maxWage).toLocaleString()}/wk</b> · Med value <b>${money(ctx.medVal)}</b></span>`:"");
   const slotHtml=i=>{const pos=slots[i],p=xi[i],pf=p?perfFor(p,slotG(pos)):NaN,ab=p?abilityAt(p,pos):NaN;
     return `<div class="tfs" data-s="${i}" role="button" tabindex="0" aria-pressed="${i===tfSel}"><b>${posLbl(pos)}${p?` · perf ${isNaN(pf)?"–":pf} · ability ${f1(ab)}`:""}</b><select data-s="${i}" aria-label="Your player at ${posLbl(pos)}"><option value="">Empty</option>${pool.filter(q=>q.pset.has(pos)||q===p).map(q=>`<option value="${esc(pid(q))}"${q===p?" selected":""}>${esc(q.r.Name)}</option>`).join("")}</select><label class="mut" style="font-size:11px;display:flex;gap:5px;align-items:center"><input type="checkbox" data-lf="${i}"${st.left?.[i]?" checked":""}> Left foot</label></div>`;};
   $("tfp").innerHTML=LINES.map(line=>{const idx=slots.map((s,i)=>[s,i]).filter(([s])=>line.includes(s)).sort((a,b)=>line.indexOf(a[0])-line.indexOf(b[0])).map(([,i])=>i);return idx.length?`<div class="tfl">${idx.map(slotHtml).join("")}</div>`:"";}).join("");
   const pos=slots[tfSel],mine=xi[tfSel],g=slotG(pos),mp=mine?perfFor(mine,g):NaN,f=readRF("tff"),minS=nv(f.style)??0,rows=[];
   const needLeft=!!st.left?.[tfSel];
   P.forEach(p=>{if(p.r.Mins<MINREC||!p.ok||inClub(p)||!senior(p)||!p.pset.has(pos)||!rfMatch(p,f))return;if(needLeft&&!(inFoot(p,"Left")||inFoot(p,"Either")))return;const pf=perfFor(p,g);if(isNaN(pf))return;
-    const sm=mine?styleMatch(p,mine,g):NaN;if(mine&&!(sm>=minS))return;const d=pf-mp;rows.push({p,pf,sm,d,v:verdictOf(d)});});
+    const sm=mine?styleMatch(p,mine,g):NaN;if(mine&&!(sm>=minS))return;const d=pf-mp,jc=joinChance(p);rows.push({p,pf,sm,d,jc,v:verdictOf(d)});});
   rows.sort((a,b)=>(isNaN(b.d)?b.pf:b.d)-(isNaN(a.d)?a.pf:a.d)||(b.sm||0)-(a.sm||0));
-  $("tfth").innerHTML="<tr><th>Name</th><th class='st'>☆</th><th>Position</th><th class='n'>Age</th><th>Club</th><th>League</th><th class='n'>Performance</th><th class='n'>vs yours</th><th class='n'>Style match</th><th>Verdict</th><th class='n'>Ability</th><th class='n'>vs yours</th><th class='n'>Value</th><th class='n'>Wage £/wk</th><th>Expires</th></tr>";
+  $("tfth").innerHTML="<tr><th>Name</th><th class='st'>☆</th><th class='st'>⇄</th><th>Join</th><th>Position</th><th class='n'>Age</th><th>Nat</th><th>Club</th><th>League</th><th class='n'>Performance</th><th class='n'>vs yours</th><th class='n'>Style match</th><th>Verdict</th><th class='n'>Ability</th><th class='n'>vs yours</th><th class='n'>Value</th><th class='n'>Wage £/wk</th><th>Expires</th></tr>";
   const ma=mine?abilityAt(mine,pos):NaN;
-  $("tftb").innerHTML=rows.slice(0,200).map(({p,pf,sm,d,v})=>{const ab=abilityAt(p,pos),da=ab-ma;return `<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}${cell(p,"pos")}${cell(p,"age")}${cell(p,"club")}<td>${esc(p.r.Division||"–")}</td><td class="n">${pf}</td><td class="n">${isNaN(d)?"–":(d>0?"+":"")+d}</td><td class="n">${isNaN(sm)?"–":sm+"%"}</td><td>${v?vdHtml(...v):"–"}</td><td class="n">${f1(ab)}</td><td class="n">${isNaN(da)?"–":(da>0?"+":"")+da.toFixed(1)}</td><td class="n">${money(p.vlo)}</td>${cell(p,"wage")}${cell(p,"exp")}</tr>`;}).join("")
-    ||`<tr><td colspan="15" class="mut" style="padding:18px">No players match these filters.</td></tr>`;
+  $("tftb").innerHTML=rows.slice(0,200).map(({p,pf,sm,d,jc,v})=>{const ab=abilityAt(p,pos),da=ab-ma;return `<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}<td class="st"><button class="qcmp" data-cmp="${p.i}" data-cpos="${esc(pos)}" title="Compare with ${mine?esc(mine.r.Name):"starter"}" aria-label="Compare ${esc(p.r.Name)}">⇄</button></td><td>${jcHtml(jc)}</td>${cell(p,"pos")}${cell(p,"age")}<td>${esc(p.r.Nat||"–")}</td>${cell(p,"club")}<td>${esc(p.r.Division||"–")}</td><td class="n">${pf}</td><td class="n">${isNaN(d)?"–":(d>0?"+":"")+d}</td><td class="n">${isNaN(sm)?"–":sm+"%"}</td><td>${v?vdHtml(...v):"–"}</td><td class="n">${f1(ab)}</td><td class="n">${isNaN(da)?"–":(da>0?"+":"")+da.toFixed(1)}</td><td class="n">${money(p.vlo)}</td>${cell(p,"wage")}${cell(p,"exp")}</tr>`;}).join("")
+    ||`<tr><td colspan="18" class="mut" style="padding:18px">No players match these filters.</td></tr>`;
   $("tfcnt").textContent=`${posLbl(pos)}${needLeft?" (left foot)":""}: `+(mine?`compared with ${mine.r.Name} (performance ${isNaN(mp)?"–":mp}, ability ${f1(ma)})`:"no player in this slot")+` · ${rows.length.toLocaleString()} players`+(rows.length>200?", best 200 shown":"");
-  $("tfnote").textContent=`Click a slot to see who could play there. Each slot starts with your most-played player who can play that position; change it with the slot's list, and your choice is remembered for this club. Candidates are senior-team players with ${MINREC}+ minutes who can play the slot's position and aren't at your club. Performance is measured for the slot's position group (the average of its key stat percentiles, ranked within the group, so 50 is the median). Upgrade means ${LVL}+ points better than your player, Downgrade ${LVL}+ points worse, and Replacement anything in between. Style match compares the same stats one by one: 100% is an identical profile. Ability is the weighted attribute score for the slot (1-20, see the README), with the gap to your player; tick Left foot on a slot to see only left-footed or two-footed players there. Performance doesn't allow for league strength, and weaker leagues make percentiles look better, so the league filter starts at "My league or stronger" (by the league ranking in Rank). This is the tool's own reading of the stats: it doesn't read your tactic, roles or attributes.`;}
+  $("tfnote").textContent=`Click a slot (or a Priority gap chip above) to find realistic upgrades. Join defaults to Likely + Possible using your club's reputation & wage structure. Click ⇄ on any candidate to compare directly against your starter.`;
+}
 
 // Sell/Keep: one verdict for each player whose contract is with your club (not players on loan to you), with its reasons.
 // Starters are the Tactical fit XI; backups are the next best by performance at each position the formation uses.
@@ -1502,22 +1878,30 @@ function renderSK(){if(!P.length)return;
   const all=skRows(),cnt={},cls=Object.fromEntries(SKV),order=Object.fromEntries(SKV.map(([v],i)=>[v,i]));all.forEach(r=>cnt[r.v]=(cnt[r.v]||0)+1);if(skF&&!cnt[skF])skF="";
   $("skv").innerHTML=`<button class="chip" data-v="" aria-pressed="${!skF}">All (${all.length})</button>`+SKV.filter(([v])=>cnt[v]).map(([v])=>`<button class="chip" data-v="${v}" aria-pressed="${v===skF}">${v} (${cnt[v]})</button>`).join("");
   const rows=all.filter(r=>!skF||r.v===skF).sort((a,b)=>order[a.v]-order[b.v]||(isNaN(b.pf)?-1:b.pf)-(isNaN(a.pf)?-1:a.pf));
-  $("skth").innerHTML="<tr><th>Name</th><th class='st'>☆</th><th>Position</th><th class='n'>Age</th><th class='n'>Mins</th><th class='n'>Performance</th><th class='n'>Value</th><th class='n'>Fair value</th><th class='n'>Wage £/wk</th><th class='n'>Contract left</th><th>Verdict</th><th>Why</th></tr>";
-  $("sktb").innerHTML=rows.map(({p,pf,ml,fv,v,why})=>`<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}${cell(p,"pos")}${cell(p,"age")}${cell(p,"mins")}<td class="n">${isNaN(pf)?"–":pf}</td><td class="n">${money(p.vlo)}</td><td class="n">${money(fv)}</td>${cell(p,"wage")}<td class="n">${mlText(ml)}</td><td>${vdHtml(v,cls[v])}</td><td class="mut">${esc(why.join(" · "))}</td></tr>`).join("")
-    ||`<tr><td colspan="12" class="mut" style="padding:18px">No players found for this club.</td></tr>`;
+  $("skth").innerHTML="<tr><th>Name</th><th class='st'>☆</th><th>Position</th><th class='n'>Age</th><th class='n'>Mins</th><th class='n'>Performance</th><th class='n'>Value</th><th class='n'>Fair value</th><th class='n'>Wage £/wk</th><th class='n'>Contract left</th><th>Verdict</th><th>Why</th><th class='st'>Replace</th></tr>";
+  $("sktb").innerHTML=rows.map(({p,pf,ml,fv,v,why})=>`<tr data-i="${p.i}">${cell(p,"name")}${cell(p,"star")}${cell(p,"pos")}${cell(p,"age")}${cell(p,"mins")}<td class="n">${isNaN(pf)?"–":pf}</td><td class="n">${money(p.vlo)}</td><td class="n">${money(fv)}</td>${cell(p,"wage")}<td class="n">${mlText(ml)}</td><td>${vdHtml(v,cls[v])}</td><td class="mut">${esc(why.join(" · "))}</td><td class="st"><button class="qcmp" data-repl="${p.i}" title="Find a cheaper player for the same positions in Moneyball, who would realistically join" aria-label="Find a replacement for ${esc(p.r.Name)}">Find</button></td></tr>`).join("")
+    ||`<tr><td colspan="13" class="mut" style="padding:18px">No players found for this club.</td></tr>`;
   $("skcnt").textContent=`${rows.length} players`;$("skform").textContent=`Starters come from your ${tfState().f} in Tactical fit`;
   $("sknote").textContent=`Verdicts are the tool's own reading of the stats: a prompt for your decision, not an order. They go in this order. Under the percentile pool's ${cMin} minutes at ${YOUNG} or younger, the verdict comes from attributes: Develop at vs Age ${VA_DEV}% or more, Loan out from ${VA_LOAN}%, otherwise Release; older players get Not enough data. Contract ending within 12 months: Renew for a starter or backup, otherwise Sell now, as their value only falls from here. Valued at twice their fair value or more (see Moneyball): Sell high, unless they start for you and are under ${peakAge("")-1}. Not a starter or first backup: Surplus. ${peakAge("")} or older (keepers ${peakAge("GK")}) and not a starter: Sell before decline. Anyone else: Keep. Starters are your Tactical fit XI; backups are the next best by performance at each position your formation uses. Contract left counts from the in-game date. Players on loan to you aren't listed; players you've loaned out are.`;}
 
-$("mbg").addEventListener("change",renderMB);
-let recT=0;[["mbf",()=>renderMB()],["tff",()=>renderTF()]].forEach(([id,fn])=>["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>{clearTimeout(recT);recT=setTimeout(fn,250);})));
+$("mbg").addEventListener("change",()=>{mbSave();renderMB();});
+$("mbq").addEventListener("input",()=>{clearTimeout(recT);recT=setTimeout(()=>{mbSave();renderMB();},200);});
+$("mbpre").addEventListener("click",e=>{const b=e.target.closest("[data-pre]");if(b)setMBPreset(b.dataset.pre);});
+$("mbpos").addEventListener("click",e=>{const k=e.target.dataset.mpos;if(k==null)return;posPick(mbPos,k);mbSave();renderMB();});
+$("mbreset").onclick=()=>{mbPos.clear();$("mbq").value="";$("mbg").value="";$("mbrole").value="";$("mbadj").checked=false;setMBPreset("realistic");};
+["mbrole","mbadj"].forEach(id=>$(id).addEventListener("change",()=>{mbSave();renderMB();}));
+$("mbrepl").addEventListener("click",e=>{if(e.target.id==="mbreplx"){mbRepl=null;renderMB();}});
+$("mbth").addEventListener("click",e=>{const k=e.target.closest("th")?.dataset.mk;if(!k)return;mbSort.d=k===mbSort.k?-mbSort.d:(["name","pos","nat","club","lg"].includes(k)?1:-1);mbSort.k=k;mbSave();renderMB();});
+let recT=0;[["mbf",()=>{mbPreset="custom";mbSave();renderMB();}],["tff",()=>renderTF()]].forEach(([id,fn])=>["input","change"].forEach(ev=>$(id).addEventListener(ev,()=>{clearTimeout(recT);recT=setTimeout(fn,250);})));
 $("tfform").addEventListener("change",e=>{const st=tfState();st.f=e.target.value;st.picks={};tfSel=0;saveTF();renderTF();});
 $("tfauto").onclick=()=>{tfState().picks={};saveTF();renderTF();};
+$("tfgap").addEventListener("click",e=>{const b=e.target.closest("[data-gap]");if(b){tfSel=+b.dataset.gap;renderTF();}});
 $("tfp").addEventListener("change",e=>{const l=e.target.dataset.lf;if(l!=null){const st=tfState();(st.left??={})[l]=e.target.checked;saveTF();tfSel=+l;renderTF();return;}
   const s=e.target.dataset.s;if(s==null)return;tfState().picks[s]=e.target.value;saveTF();tfSel=+s;renderTF();});
 $("tfp").addEventListener("click",e=>{if(e.target.closest("select,label"))return;const b=e.target.closest(".tfs");if(!b)return;tfSel=+b.dataset.s;renderTF();});
 $("tfp").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("tfs")){e.preventDefault();tfSel=+e.target.dataset.s;renderTF();}});
 $("skv").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b)return;skF=b.dataset.v;renderSK();});
-["mbtb","tftb","sktb"].forEach(id=>$(id).addEventListener("click",e=>{const b=e.target.closest(".star");if(b){toggleSL(P[+b.dataset.star]);return;}const tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i);}));
+["mbtb","tftb","sktb"].forEach(id=>$(id).addEventListener("click",e=>{const fm=e.target.closest("[data-fm]");if(fm){openInFm(P[+fm.dataset.fm]);return;}const rp=e.target.closest("[data-repl]");if(rp){findReplacement(P[+rp.dataset.repl]);return;}const c=e.target.closest(".qcmp");if(c){quickCompare(P[+c.dataset.cmp],c.dataset.cpos||null);return;}const b=e.target.closest(".star");if(b){toggleSL(P[+b.dataset.star]);return;}const tr=e.target.closest("tr[data-i]");if(tr)detail(+tr.dataset.i);}));
 </script>
 </body>
 </html>

@@ -9,3 +9,10 @@ __pycache__/
 
 # logs
 *.log
+
+# MSVC intermediates & old test DLL
+*.obj
+*.exp
+*.lib
+*.pdb
+reader/fm_nav.dll

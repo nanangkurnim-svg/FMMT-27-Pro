@@ -13,7 +13,7 @@ After solving the offsets for a new build, add its id (printed by `python game.p
 shown in the page banner) to KNOWN_BUILDS and a Profile to fm27.py.
 """
 
-KNOWN_BUILDS = {"6A229F1E-1D8D3000", "6ADFB11C-19E69000", "6AE563A1-175DA000", "6AE8CF77-17969000", "6AF5C8C6-179AD000"}  # FM26 26.3.2, FM27, FM27 0.9.2409, 0.9.2435, 0.9.2524
+KNOWN_BUILDS = {"6A229F1E-1D8D3000", "6ADFB11C-19E69000", "6AE563A1-175DA000", "6AE8CF77-17969000", "6AF5C8C6-179AD000", "6AE8B5A4-17CB9000"}  # FM26 26.3.2, FM27, FM27 0.9.2409, 0.9.2435, 0.9.2524, 27.0.1 (Steam)
 
 MIN_SHARE = 0.02   # warn when a check fires on >= 2% of rows
 MIN_ROWS = 20      # below this many rows the shares are too noisy to judge
@@ -135,6 +135,28 @@ def main() -> int:
     ok = len(att) >= 0.99 * len(raw) and inrange >= 0.999 * len(att) and lead
     failed += not ok
     print(f"{'OK  ' if ok else 'FAIL'}  attributes: {inrange:,} of {len(att):,} in range; keepers' Handling {mean(gk, 'Handling') / 5:.1f} vs outfielders' {mean(out, 'Handling') / 5:.1f}")
+
+    # reputation: 0-10000 scale for players and clubs, with top players above 8000
+    reps = [r.get("rep_cur") for r in raw if r.get("rep_cur") is not None]
+    rep_ok = len(reps) >= 0.99 * len(raw) and all(0 <= v <= 10000 for v in reps) and max(reps, default=0) >= 8000
+    creps = [r.get("club_rep") for r in raw if r.get("club_rep") is not None]
+    crep_ok = len(creps) >= 0.80 * len(raw) and all(1 <= v <= 10000 for v in creps) and max(creps, default=0) >= 8000
+    ok = rep_ok and crep_ok
+    failed += not ok
+    print(f"{'OK  ' if ok else 'FAIL'}  reputation: {len(reps):,} players (max {max(reps, default=0)}), {len(creps):,} with club rep (max {max(creps, default=0)})")
+
+    # release clauses: the Spanish league requires them, so they cluster at Spanish clubs, and Real Madrid's
+    # and Barcelona's stars carry the EUR 1bn clause. A moved clause list would lose both patterns.
+    esp = [r for r in raw if r.get("club_nat") == "ESP"]
+    rest = [r for r in raw if r.get("club_nat") and r.get("club_nat") != "ESP"]
+    share = lambda rows: sum(bool(r.get("release_clause")) for r in rows) / max(len(rows), 1)
+    top = max((r.get("release_clause") or 0 for r in raw), default=0)
+    if len(esp) >= 200:
+        ok = share(esp) >= 0.40 and share(rest) <= 0.10 and top >= 300_000_000
+        failed += not ok
+        print(f"{'OK  ' if ok else 'FAIL'}  release clauses: {share(esp):.0%} of players at Spanish clubs, {share(rest):.1%} elsewhere, largest {top:,}")
+    else:
+        print("SKIP  release clauses: too few players at Spanish clubs in this save")
 
     warnings = check([to_row(r) for r in raw], g.build.id, g.unlisted)
     failed += bool(warnings)

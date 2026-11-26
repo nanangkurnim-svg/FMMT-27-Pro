@@ -6,6 +6,7 @@ python -m PyInstaller --noconfirm --onefile --windowed --name "FMMT 27" ^
   --icon "%~dp0FMMT 27.ico" ^
   --add-data "%~dp0FMMT 27.html;." ^
   --add-data "%~dp0FMMT 27.ico;." ^
+  --add-binary "%~dp0reader\fmmt_nav.dll;." ^
   --distpath "%~dp0dist" --workpath "%TEMP%\fmmt27-build" --specpath "%TEMP%\fmmt27-build" ^
   app.py
 if errorlevel 1 (echo Build failed & pause & exit /b 1)
